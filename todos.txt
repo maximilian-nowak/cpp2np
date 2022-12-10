@@ -1,0 +1,10 @@
+- distutils ersetzen
+- wrapper methoden mit unterschiedlichen interfaces anbieten (fromCapsule, fromMemview, ...)
+- cout ausbauen
+- testapp aktualisieren
+- fehlerprüfung (kein valides tuple etc.)
+- owndata prüfung (ein/aus)
+
+neue todos:
+- demo erstellen mit Image (cpp klasse zum einlessen -> numpy array -> bildbearbeitung mit quantisierung aus numerik2)
+- use setuptools instead of distutil
