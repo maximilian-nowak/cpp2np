@@ -12,12 +12,12 @@ static PyObject* hello(PyObject* self, PyObject* args){
     return Py_BuildValue("s", s.c_str());
 }
 
-// Define a PyCapsule_Destructor for wrapper
-void free_wrap(PyObject *capsule){
+/// Define a PyCapsule_Destructor for wrapper. merely serves as debug information.
+void decref_capsule(PyObject *capsule){
     // void* memory = (void*) PyCapsule_GetPointer(capsule, PyCapsule_GetName(capsule));
     std::cout << "decremented reference count" << std::endl;
 };
-// Define a PyCapsule_Destructor for capsule
+/// Define a PyCapsule_Destructor for capsule
 void free_capsule(PyObject *capsule){
     void * memory = (void*) PyCapsule_GetPointer(capsule, PyCapsule_GetName(capsule));
     std::cout << "destruction" << std::endl;
@@ -25,17 +25,16 @@ void free_capsule(PyObject *capsule){
 };
 
 static PyObject* cpp2np_wrap(PyObject* self, PyObject* args, PyObject* kwargs){
-    PyObject* arr = NULL;
-    npy_intp ptr;
-    PyObject* in_shape = NULL;
-    npy_int owndata=0;
-    PyArray_Descr* dtype = NULL;
+    npy_intp ptr;  // npy_intp => intptr_t => unsigned long it
+    npy_int free_mem_on_del=0;  // if true frees buffer after deletion of numpy array
 
-    std::cout << "test" << std::endl;
+    PyObject* arr = NULL;
+    PyObject* in_shape = NULL;
+    PyArray_Descr* dtype = NULL;
     
-    std::string keys[] = {"input", "shape", "dtype", "owndata"};
+    std::string keys[] = {"input", "shape", "dtype", "free_mem_on_del"};
     static char* kwlist[] = {keys[0].data(), keys[1].data(), keys[2].data(), keys[3].data(), NULL};
-    if(!PyArg_ParseTupleAndKeywords(args, kwargs, "lO|Oi", kwlist, &ptr, &in_shape, &dtype, &owndata)){
+    if(!PyArg_ParseTupleAndKeywords(args, kwargs, "lO|Oi", kwlist, &ptr, &in_shape, &dtype, &free_mem_on_del)){
         return NULL;
     }
     if(dtype && !PyArray_DescrCheck(dtype)) {
@@ -45,26 +44,21 @@ static PyObject* cpp2np_wrap(PyObject* self, PyObject* args, PyObject* kwargs){
         return NULL;
     }
     
+    // convert python tuple to int[]
     Py_ssize_t ndim = PyTuple_GET_SIZE(in_shape);
     Py_ssize_t shape[ndim];
-    
-    std::cout << ndim << std::endl;
-    
     for(int i=0; i<ndim; ++i){
         PyObject* pval = PyTuple_GET_ITEM(in_shape, i);
         shape[i] = PyLong_AsLong(pval);
-        std::cout << shape[i] << std::endl;
     }
     
-    std::cout << ptr << std::endl;
-
     void* buf = (void*) ptr;
     arr = PyArray_SimpleNewFromData(ndim, shape, dtype ? dtype->type_num : NPY_INT, buf);
 
-    PyObject* capsule = PyCapsule_New(buf, "cpp_destructor", (PyCapsule_Destructor)&free_wrap);
+    PyCapsule_Destructor* destr = (PyCapsule_Destructor*) ((free_mem_on_del) ? &free_capsule : &decref_capsule);
+    PyObject* capsule = PyCapsule_New(buf, "wrapper_capsule", (PyCapsule_Destructor) destr);
     if (PyArray_SetBaseObject((PyArrayObject*)arr, capsule) == -1) {
         Py_DECREF(arr);
-        Py_XDECREF(buf);
         return NULL;
     }
     return arr;
@@ -74,14 +68,14 @@ static PyObject* cpp2np_wrapFromCapsule(PyObject* self, PyObject* args, PyObject
     PyObject* arr = NULL;
     PyObject* input;
     PyObject* in_shape = NULL;
-    npy_int owndata=0;
+    npy_int free_mem_on_del=0;
     PyArray_Descr* dtype = NULL;
 
     std::cout << "test" << std::endl;
     
-    std::string keys[] = {"input", "shape", "dtype", "owndata"};
+    std::string keys[] = {"input", "shape", "dtype", "free_mem_on_del"};
     static char* kwlist[] = {keys[0].data(), keys[1].data(), keys[2].data(), keys[3].data(), NULL};
-    if(!PyArg_ParseTupleAndKeywords(args, kwargs, "OO|Oi", kwlist, &input, &in_shape, &dtype, &owndata)){
+    if(!PyArg_ParseTupleAndKeywords(args, kwargs, "OO|Oi", kwlist, &input, &in_shape, &dtype, &free_mem_on_del)){
         return NULL;
     }
     if(dtype && !PyArray_DescrCheck(dtype)) {
@@ -104,19 +98,16 @@ static PyObject* cpp2np_wrapFromCapsule(PyObject* self, PyObject* args, PyObject
     
     if(PyCapsule_IsValid(input, "cpointer")){
         void* buf = (void*) PyCapsule_GetPointer(input, "cpointer");
-
         arr = PyArray_SimpleNewFromData(ndim, shape, dtype ? dtype->type_num : NPY_INT, buf);
 
-        PyObject* capsule = PyCapsule_New(buf, "cpp_destructor", (PyCapsule_Destructor)&free_wrap);
+        PyCapsule_Destructor* destr = (PyCapsule_Destructor*) ((free_mem_on_del) ? &free_capsule : &decref_capsule);
+        PyObject* capsule = PyCapsule_New(buf, "wrapper_capsule", (PyCapsule_Destructor) destr);
         if (PyArray_SetBaseObject((PyArrayObject*)arr, capsule) == -1) {
             Py_DECREF(arr);
-            Py_XDECREF(buf);
             return NULL;
         }
         return arr;
-
     }
-
     return NULL;
 }
 
@@ -183,18 +174,20 @@ static PyObject* cpp2np_getDescr(PyObject* self, PyObject* args, PyObject* kwarg
     return ret;
 }
 
-static PyObject* cpp2np_freePtr(PyObject* self, PyObject* args, PyObject* kwargs){
+static PyObject* cpp2np_free(PyObject* self, PyObject* args, PyObject* kwargs){
     npy_intp ptr;
     std::string keys[] = {"pointer"};
     static char* kwlist[] = {keys[0].data(), NULL};
     if(!PyArg_ParseTupleAndKeywords(args, kwargs, "l", kwlist, &ptr)){
-        return NULL;
+        return Py_BuildValue("i", 0);
     }
+
+    std::cout << "destruction" << std::endl;
 
     void* buf = (void*) ptr;
     free(buf);
     
-    return Py_BuildValue("i", 0);
+    return Py_BuildValue("i", 1);
 }
 
 
@@ -224,7 +217,7 @@ static PyObject* cpp2np_wrap2(PyObject* self, PyObject* args, PyObject* kwargs){
         const npy_intp shape[] = {3};
         arr = PyArray_SimpleNewFromData(1, shape, NPY_INT, memory);
 
-        PyObject* capsule = PyCapsule_New(input, "cpp_buffer", (PyCapsule_Destructor)&free_wrap);
+        PyObject* capsule = PyCapsule_New(input, "cpp_buffer", (PyCapsule_Destructor)&decref_capsule);
         if (PyArray_SetBaseObject((PyArrayObject*)arr, capsule) == -1) {
             Py_DECREF(arr);
             Py_XDECREF(input);
@@ -268,7 +261,7 @@ static PyObject* cpp2np_wrap2(PyObject* self, PyObject* args, PyObject* kwargs){
                 return NULL;
             }
             //alternative way: assigning a destructor as base object
-            // PyObject* capsule = PyCapsule_New(input, "cpp_buffer", (PyCapsule_Destructor)&free_wrap);
+            // PyObject* capsule = PyCapsule_New(input, "cpp_buffer", (PyCapsule_Destructor)&decref_capsule);
             // if (PyArray_SetBaseObject((PyArrayObject*)arr, capsule) == -1) {
             //     Py_DECREF(arr);
             //     Py_XDECREF(buffer);
@@ -309,7 +302,7 @@ static PyMethodDef cpp2np_funcs[] = {
     {"wrapFromCapsule", (PyCFunction)cpp2np_wrapFromCapsule, METH_VARARGS | METH_KEYWORDS, "create numpy array from pycapsule"},
     {"wrap2", (PyCFunction)cpp2np_wrap2, METH_VARARGS | METH_KEYWORDS, "create numpy array from memory view or capsule"},   
     {"getDescr", (PyCFunction)cpp2np_getDescr, METH_VARARGS | METH_KEYWORDS, "return array interface as dict"},
-    {"freePtr", (PyCFunction)cpp2np_freePtr, METH_VARARGS | METH_KEYWORDS, "free pointer buffer"},
+    {"free", (PyCFunction)cpp2np_free, METH_VARARGS | METH_KEYWORDS, "free pointer buffer"},
     {nullptr, nullptr, 0, nullptr}
 };
 
