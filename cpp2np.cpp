@@ -10,17 +10,18 @@
 static PyObject* hello(PyObject* self, PyObject* args){
     std::string s = "Hello Python, this is C++!";
     return Py_BuildValue("s", s.c_str());
-}
+};
 
 /// Define a PyCapsule_Destructor for wrapper. merely serves as debug information.
 void decref_capsule(PyObject *capsule){
     // void* memory = (void*) PyCapsule_GetPointer(capsule, PyCapsule_GetName(capsule));
-    std::cout << "decremented reference count" << std::endl;
+    std::cout << "delete pyobject reference" << std::endl;
 };
+
 /// Define a PyCapsule_Destructor for capsule
 void free_capsule(PyObject *capsule){
     void * memory = (void*) PyCapsule_GetPointer(capsule, PyCapsule_GetName(capsule));
-    std::cout << "destruction" << std::endl;
+    std::cout << "free memory buffer" << std::endl;
     free(memory);
 };
 
@@ -55,14 +56,16 @@ static PyObject* cpp2np_wrap(PyObject* self, PyObject* args, PyObject* kwargs){
     void* buf = (void*) ptr;
     arr = PyArray_SimpleNewFromData(ndim, shape, dtype ? dtype->type_num : NPY_INT, buf);
 
+    // binding a capsule to the numpy array to serve as destructor.
+    // only 'free_capsule' actually frees the memory buffer. 'decref' will only logs the deletion event
     PyCapsule_Destructor* destr = (PyCapsule_Destructor*) ((free_mem_on_del) ? &free_capsule : &decref_capsule);
-    PyObject* capsule = PyCapsule_New(buf, "wrapper_capsule", (PyCapsule_Destructor) destr);
+    PyObject* capsule = PyCapsule_New(buf, "buffer_capsule", (PyCapsule_Destructor) destr);
     if (PyArray_SetBaseObject((PyArrayObject*)arr, capsule) == -1) {
         Py_DECREF(arr);
         return NULL;
     }
     return arr;
-}
+};
 
 static PyObject* cpp2np_wrapFromCapsule(PyObject* self, PyObject* args, PyObject* kwargs){
     PyObject* arr = NULL;
@@ -101,7 +104,7 @@ static PyObject* cpp2np_wrapFromCapsule(PyObject* self, PyObject* args, PyObject
         arr = PyArray_SimpleNewFromData(ndim, shape, dtype ? dtype->type_num : NPY_INT, buf);
 
         PyCapsule_Destructor* destr = (PyCapsule_Destructor*) ((free_mem_on_del) ? &free_capsule : &decref_capsule);
-        PyObject* capsule = PyCapsule_New(buf, "wrapper_capsule", (PyCapsule_Destructor) destr);
+        PyObject* capsule = PyCapsule_New(buf, "buffer_capsule", (PyCapsule_Destructor) destr);
         if (PyArray_SetBaseObject((PyArrayObject*)arr, capsule) == -1) {
             Py_DECREF(arr);
             return NULL;
@@ -109,7 +112,7 @@ static PyObject* cpp2np_wrapFromCapsule(PyObject* self, PyObject* args, PyObject
         return arr;
     }
     return NULL;
-}
+};
 
 static PyObject* cpp2np_array(PyObject* self, PyObject* args){
     // PyObject *arr;
@@ -133,7 +136,7 @@ static PyObject* cpp2np_array(PyObject* self, PyObject* args){
     PyTuple_SET_ITEM(ret, 0, PyLong_FromLong(ptr));
     
     return ret;
-}
+};
 
 static PyObject* cpp2np_arrayCapsule(PyObject* self, PyObject* args){
     // PyObject *arr;
@@ -148,7 +151,7 @@ static PyObject* cpp2np_arrayCapsule(PyObject* self, PyObject* args){
     // PyArray_SetBaseObject((PyArrayObject *) arr, capsule);
     
     return capsule;
-}
+};
 
 static PyObject* cpp2np_getDescr(PyObject* self, PyObject* args, PyObject* kwargs){
     PyObject *arr = NULL;
@@ -172,7 +175,7 @@ static PyObject* cpp2np_getDescr(PyObject* self, PyObject* args, PyObject* kwarg
     // PyArray_Descr *PyArray_DTYPE(PyArrayObject* arr)
     
     return ret;
-}
+};
 
 static PyObject* cpp2np_free(PyObject* self, PyObject* args, PyObject* kwargs){
     npy_intp ptr;
@@ -188,7 +191,7 @@ static PyObject* cpp2np_free(PyObject* self, PyObject* args, PyObject* kwargs){
     free(buf);
     
     return Py_BuildValue("i", 1);
-}
+};
 
 
 static PyObject* cpp2np_wrap2(PyObject* self, PyObject* args, PyObject* kwargs){
@@ -273,7 +276,7 @@ static PyObject* cpp2np_wrap2(PyObject* self, PyObject* args, PyObject* kwargs){
     }
     
     return arr ? arr : NULL;
-}
+};
 
 // static PyObject* cpp2np_array(PyObject* self, PyObject* args){
 //     PyObject *arr;
@@ -317,4 +320,4 @@ static struct PyModuleDef cpp2npmodule = {
 PyMODINIT_FUNC PyInit_cpp2np(void){
     import_array();
     return PyModule_Create(&cpp2npmodule);
-}
+};

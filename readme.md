@@ -1,4 +1,4 @@
-# cpp2np Modul
+# cpp2np
 
 ## Requirements
     Python >= 3.9
