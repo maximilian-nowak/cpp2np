@@ -74,10 +74,10 @@ static PyObject* cpp2np_array_2x2(PyObject* self, PyObject* args){
     npy_intp ptr = (npy_intp) data;
     std::cout << ptr << std::endl;
 
-    PyObject* ret = PyTuple_New(1);
-    PyTuple_SET_ITEM(ret, 0, PyLong_FromLong(ptr));
+    // PyObject* ret = PyTuple_New(1);
+    // PyTuple_SET_ITEM(ret, 0, PyLong_FromLong(ptr));
 
-    return ret;
+    return PyLong_FromLong(ptr);
 };
 
 static PyObject* cpp2np_descr(PyObject* self, PyObject* args, PyObject* kwargs){
