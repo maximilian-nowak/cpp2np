@@ -69,7 +69,7 @@ static PyObject* cpp2np_wrap(PyObject* self, PyObject* args, PyObject* kwargs){
 };
 
 static PyObject* cpp2np_array_2x2(PyObject* self, PyObject* args){
-    auto* data = new std::array<std::array<npy_int, 2>, 2>({{{1,2},{3,4}}});
+    auto* data = new std::array<std::array<int, 2>, 2>({{{1,2},{3,4}}});
 
     npy_intp ptr = (npy_intp) data;
     // std::cout << ptr << std::endl;
@@ -93,11 +93,13 @@ static PyObject* cpp2np_descr(PyObject* self, PyObject* args, PyObject* kwargs){
         return NULL;
     }
 
+    // first try to find array interface info
     if(PyObject_HasAttr(input, PyUnicode_FromString("__array_interface__"))) {
         PyObject* interf = PyObject_GetAttr(input, PyUnicode_FromString("__array_interface__"));
         return interf;
     }
 
+    // if array interface was not found collect info manually
     arr = (PyArrayObject*) input;
 
     ret = PyDict_New();
@@ -131,8 +133,6 @@ static PyObject* cpp2np_freemem(PyObject* self, PyObject* args, PyObject* kwargs
     if(!PyArg_ParseTupleAndKeywords(args, kwargs, "l", kwlist, &ptr)){
         return Py_BuildValue("i", 0);
     }
-
-    std::cout << "destruction" << std::endl;
 
     void* buf = (void*) ptr;
     free(buf);
