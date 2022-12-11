@@ -1,4 +1,3 @@
-README.md
 cpp2np.cpp
 setup.py
 cpp2np.egg-info/PKG-INFO
