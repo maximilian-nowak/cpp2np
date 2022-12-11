@@ -1,4 +1,4 @@
-dis/
+dist/
 __pycache__
 cpp2np.egg-info
 todo.txt
