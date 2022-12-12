@@ -25,21 +25,22 @@ Dazu führt man folgenden Befehl im Root-Verzeichnis des Projektes aus:
 
 ## Demo
 
-
 ### import module
-```{python}
+
+```python
 import cpp2np as c2n
 import numpy as np
 ```
 
 ### wrap pointer in numpy array
 
-```{python}
+```python
 pointer, shape = c2n.array_2x2()
 print(pointer)
 print(shape)
 print(type(wrapper))
 ```
+
     [[1 2]
     [3 4]]
     
@@ -47,20 +48,22 @@ print(type(wrapper))
 
 ### change value in numpy array
 
-```{python}
+```python
 wrapper[0,0] = 255
 print(wrapper)
 ```
+
     [[255   2]
     [  3   4]]
 
 ### delete numpy array and create new wrapper from same pointer
 
-```{python}
+```python
 del wrapper
 wrapper2 = c2n.wrap(pointer, shape, dtype=np.dtype("int32"))
 print(wrapper2)
 ```
+
     [[255   2]
     [  3   4]]
 
@@ -69,16 +72,20 @@ as it also shows up in the new wrapper. Also deleting the wrapper did not delete
 
 
 ### Get information underlying data of the wrapper:
-```{python}
+
+```python
 print(c2n.descr(wrapper2))
 ```
+
     {'data': (23856832, False), 'strides': None, 'descr': [('', '<i4')], 'typestr': '<i4', 'shape': (2, 2), 'version': 3}
 
 ### Free the memory of the c++ array explicitly
-```{python}
+
+```python
 c2n.freemem(pointer)
 print(wrapper2)
 ```
+
     [[23582592        0]
     [19415056        0]]
 
