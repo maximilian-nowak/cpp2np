@@ -32,12 +32,21 @@ import cpp2np as c2n
 import numpy as np
 ```
 
-### wrap pointer in numpy array
+### Get pointer to 2x2 std::array allocated by c++:
 
 ```python
 pointer, shape = c2n.array_2x2()
 print(pointer)
 print(shape)
+```
+    23856832
+    (2, 2)
+
+### wrap pointer in numpy array
+
+```python
+wrapper = c2n.wrap(pointer, shape, dtype=np.dtype("int32"))
+print(wrapper)
 print(type(wrapper))
 ```
 
