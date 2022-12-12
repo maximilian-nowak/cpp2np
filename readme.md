@@ -80,7 +80,7 @@ print(wrapper2)
 as it also shows up in the new wrapper. Also deleting the wrapper did not delete the buffer.)
 
 
-### Get information underlying data of the wrapper:
+### Get information of underlying data of the wrapper:
 
 ```python
 print(c2n.descr(wrapper2))
