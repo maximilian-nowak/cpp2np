@@ -10,7 +10,7 @@
 
 Zur Installation führt man den 'make' Befehl im Root-Verzeichnis des Projektes aus.
 
-    >>> make
+    user@HOST:~/cpp2np$ make
 
 Das cpp2np Modul wird automatisch gebaut und im environment installiert.
     
@@ -21,7 +21,7 @@ der dynamic linked libraries hinzuzufügen.
 
 Dazu führt man folgenden Befehl im Root-Verzeichnis des Projektes aus:
 
-    >>> echo export LD_LIBRARY_PATH=$(pwd)/build/lib.linux-x86_64-cpython-310 >> ~/.bashrc
+    user@HOST:~/cpp2np$ echo export LD_LIBRARY_PATH=$(pwd)/build/lib.linux-x86_64-cpython-310 >> ~/.bashrc
 
 ## Demo
 
