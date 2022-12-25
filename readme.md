@@ -39,7 +39,7 @@ pointer, shape = c2n.array_2x2()
 print(pointer)
 print(shape)
 ```
-    23856832
+    24245840
     (2, 2)
 
 ### wrap pointer in numpy array
@@ -80,22 +80,46 @@ print(wrapper2)
 as it also shows up in the new wrapper. Also deleting the wrapper did not delete the buffer.)
 
 
-### Get information of underlying data of the wrapper:
+### Get information of underlying data of the wrapper
 
 ```python
 print(c2n.descr(wrapper2))
 ```
 
-    {'data': (23856832, False), 'strides': None, 'descr': [('', '<i4')], 'typestr': '<i4', 'shape': (2, 2), 'version': 3}
+    {'data': 24245840, 'ndim': 2, 'shape': (2, 2), 'typestr': '<i4'}
+
+### To check if data is contiguous we can look into (ndarray.flags)
+
+```python
+print("C contiguous? " + str(wrapper2.flags['C_CONTIGUOUS']))
+print("F contiguous? " + str(wrapper2.flags['F_CONTIGUOUS']))
+```
+
+    C contiguous? True
+    F contiguous? False
+    
+    
+### Flags overview
+
+```python
+    wrapper2.flags
+```
+
+    C_CONTIGUOUS : True
+    F_CONTIGUOUS : False
+    OWNDATA : False
+    WRITEABLE : True
+    ALIGNED : True
+    WRITEBACKIFCOPY : False
 
 ### Free the memory of the c++ array explicitly
 
 ```python
-c2n.freemem(pointer)
+c2n.free(pointer)
 print(wrapper2)
 ```
 
-    [[23582592        0]
-    [19415056        0]]
+    [[24407120        0]
+    [19943440        0]]
 
 We observe that the numpy array is pointing nowhere as the original buffer was freed on the c++ side
