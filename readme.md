@@ -102,7 +102,7 @@ print("F contiguous? " + str(wrapper2.flags['F_CONTIGUOUS']))
 ### Flags overview
 
 ```python
-    wrapper2.flags
+wrapper2.flags
 ```
 
     C_CONTIGUOUS : True
@@ -115,11 +115,11 @@ print("F contiguous? " + str(wrapper2.flags['F_CONTIGUOUS']))
 ### Free the memory of the c++ array explicitly
 
 ```python
-c2n.free(pointer)
-print(wrapper2)
+>>> c2n.free(pointer)
+>>> print(wrapper2)
 ```
 
     [[24407120        0]
     [19943440        0]]
 
-We observe that the numpy array is pointing nowhere as the original buffer was freed on the c++ side
+We observe that the numpy array is pointing nowhere as the original buffer was freed on the c++ side.
