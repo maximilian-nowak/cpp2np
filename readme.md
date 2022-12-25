@@ -39,8 +39,8 @@ import numpy as np
 >>> print(pointer)
 >>> print(shape)
 
-    24245840
-    (2, 2)
+24245840
+(2, 2)
 ```
 
 ### wrap pointer in numpy array
@@ -50,10 +50,10 @@ import numpy as np
 >>> print(wrapper)
 >>> print(type(wrapper))
 
-    [[1 2]
-    [3 4]]
-    
-    <class 'numpy.ndarray'>
+[[1 2]
+[3 4]]
+
+<class 'numpy.ndarray'>
 ```
 
 ### change value in numpy array
@@ -62,8 +62,8 @@ import numpy as np
 >>> wrapper[0,0] = 255
 >>> print(wrapper)
 
-    [[255   2]
-    [  3   4]]
+[[255   2]
+[  3   4]]
 ```
 
 ### delete numpy array and create new wrapper from same pointer
@@ -73,8 +73,8 @@ import numpy as np
 >>> wrapper2 = c2n.wrap(pointer, shape, dtype=np.dtype("int32"))
 >>> print(wrapper2)
 
-    [[255   2]
-    [  3   4]]
+[[255   2]
+[  3   4]]
 ```
 
 (We observe the change of value in first wrapper was done on the original memory buffer,
@@ -86,7 +86,7 @@ as it also shows up in the new wrapper. Also deleting the wrapper did not delete
 ```python
 >>> print(c2n.descr(wrapper2))
 
-    {'data': 24245840, 'ndim': 2, 'shape': (2, 2), 'typestr': '<i4'}
+{'data': 24245840, 'ndim': 2, 'shape': (2, 2), 'typestr': '<i4'}
 ```
 
 ### To check if data is contiguous we can look into flags attribute of the numpy array
@@ -95,8 +95,8 @@ as it also shows up in the new wrapper. Also deleting the wrapper did not delete
 >>> print("C contiguous? " + str(wrapper2.flags['C_CONTIGUOUS']))
 >>> print("F contiguous? " + str(wrapper2.flags['F_CONTIGUOUS']))
 
-    C contiguous? True
-    F contiguous? False
+C contiguous? True
+F contiguous? False
 ```    
     
 ### Flags overview
@@ -104,12 +104,12 @@ as it also shows up in the new wrapper. Also deleting the wrapper did not delete
 ```python
 >>> wrapper2.flags
 
-    C_CONTIGUOUS : True
-    F_CONTIGUOUS : False
-    OWNDATA : False
-    WRITEABLE : True
-    ALIGNED : True
-    WRITEBACKIFCOPY : False
+C_CONTIGUOUS : True
+F_CONTIGUOUS : False
+OWNDATA : False
+WRITEABLE : True
+ALIGNED : True
+WRITEBACKIFCOPY : False
 ```
 
 ### Free the memory of the c++ array explicitly
@@ -118,8 +118,8 @@ as it also shows up in the new wrapper. Also deleting the wrapper did not delete
 >>> c2n.free(pointer)
 >>> print(wrapper2)
 
-    [[24407120        0]
-    [19943440        0]]
+[[24407120        0]
+[19943440        0]]
 ```
 
 We observe that the numpy array is pointing nowhere as the original buffer was freed on the c++ side.
