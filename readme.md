@@ -53,7 +53,7 @@ import numpy as np
 [[1 2]
 [3 4]]
 
-<class 'numpy.ndarray'>
+<class numpy.ndarray>
 ```
 
 ### change value in numpy array
@@ -117,9 +117,9 @@ WRITEBACKIFCOPY : False
 ```python
 >>> c2n.free(pointer)
 >>> print(wrapper2)
-```
-    [[24407120        0]
-    [19943440        0]]
 
+[[24407120        0]
+[19943440        0]]
+```
 
 We observe that the numpy array is pointing nowhere as the original buffer was freed on the c++ side.
