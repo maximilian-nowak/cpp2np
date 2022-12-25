@@ -117,9 +117,10 @@ wrapper2.flags
 ```python
 >>> c2n.free(pointer)
 >>> print(wrapper2)
-```
+>>> print("test" + str(255))
 
     [[24407120        0]
     [19943440        0]]
+```
 
 We observe that the numpy array is pointing nowhere as the original buffer was freed on the c++ side.
