@@ -28,11 +28,17 @@ print("(we observe the change of value in first wrapper was done on the original
         "as it also shows up in the new wrapper. Also deleting the wrapper did not delete the buffer)")
 
 # -----------------------
-print("\nTo get information on pointer, shape and type of the underlying data of the wrapper we call 'descr':")
+print("\nGet information of underlying data of the wrapper:")
 print(c2n.descr(wrapper2))
 
 # -----------------------
+print("\nTo check if data is contiguous we can look into (ndarray.flags):")
+print("C contiguous? " + str(wrapper2.flags['C_CONTIGUOUS']))
+print("F contiguous? " + str(wrapper2.flags['F_CONTIGUOUS']))
+print("flags overview: \n" + str(wrapper2.flags))
+
+# -----------------------
 print("\nNow we explicitly free the memory of the c++ array:")
-c2n.freemem(pointer)
+c2n.free(pointer)
 print(wrapper2)
 print("We observe that the numpy array is pointing nowhere as the original buffer was freed on the c++ side")

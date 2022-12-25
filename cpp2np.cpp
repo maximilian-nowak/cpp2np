@@ -93,51 +93,74 @@ static PyObject* cpp2np_descr(PyObject* self, PyObject* args, PyObject* kwargs){
         return NULL;
     }
 
-    // first try to find array interface info
-    if(PyObject_HasAttr(input, PyUnicode_FromString("__array_interface__"))) {
-        PyObject* interf = PyObject_GetAttr(input, PyUnicode_FromString("__array_interface__"));
-        return interf;
-    }
-
-    // if array interface was not found collect info manually
     arr = (PyArrayObject*) input;
-
+    // prepare return dict
     ret = PyDict_New();
-    npy_intp ptr = (npy_intp) PyArray_DATA(arr);
-    Py_ssize_t ndim = PyArray_NDIM(arr);
-    npy_intp* shape = PyArray_SHAPE(arr);
-    PyArray_Descr* dtype = PyArray_DTYPE(arr);
-
-    PyDict_SetItem(ret, PyUnicode_FromString("ptr"), PyLong_FromLong(ptr));
-    PyDict_SetItem(ret, PyUnicode_FromString("ndim"), PyLong_FromLong(ndim));
-
-    if(shape) {
-        PyObject* shape_tuple = PyTuple_New(ndim);
-        for(int i=0; i<ndim; ++i) {
-            PyTuple_SET_ITEM(shape_tuple, i, PyLong_FromLong(shape[i]));
-        }
-        PyDict_SetItem(ret, PyUnicode_FromString("shape"), shape_tuple);
+    
+    // first try to find array interface info
+    PyObject* interf = NULL;
+    if(PyObject_HasAttr(input, PyUnicode_FromString("__array_interface__"))) {
+        interf = PyObject_GetAttr(input, PyUnicode_FromString("__array_interface__"));
+        // return interf;
     }
 
-    if(PyArray_DescrCheck(dtype)) {
-        PyDict_SetItem(ret, PyUnicode_FromString("typenum"), PyLong_FromLong(dtype->type_num));
+    // get data pointer
+    npy_intp data = (npy_intp) PyArray_DATA(arr);
+    if(data){
+        PyDict_SetItem(ret, PyUnicode_FromString("data"), PyLong_FromLong(data));
+    }
+
+    // get number of dimensions
+    Py_ssize_t ndim = PyArray_NDIM(arr);
+    if(ndim) {
+        PyDict_SetItem(ret, PyUnicode_FromString("ndim"), PyLong_FromLong(ndim));
+    }
+
+    // try to get shape from array interface
+    if(interf) {
+        PyObject* shape = PyDict_GetItem(interf, PyUnicode_FromString("shape"));
+        if(shape) {
+            PyDict_SetItem(ret, PyUnicode_FromString("shape"), shape);
+        }
+    }
+    // if intterface not found, determine from API
+    if(!interf) {
+        npy_intp* shape = PyArray_SHAPE(arr);
+        if(shape) {
+            PyObject* shape_tuple = PyTuple_New(ndim);
+            for(int i=0; i<ndim; ++i) {
+                PyTuple_SET_ITEM(shape_tuple, i, PyLong_FromLong(shape[i]));
+            }
+            PyDict_SetItem(ret, PyUnicode_FromString("shape"), shape_tuple);
+        }
+    }
+
+    // get typestr or typenum
+    if(interf) {
+        PyObject* typestr = PyDict_GetItem(interf, PyUnicode_FromString("typestr"));
+        PyDict_SetItem(ret, PyUnicode_FromString("typestr"), typestr);
+    } else {
+        PyArray_Descr* dtype = PyArray_DTYPE(arr);
+        if(PyArray_DescrCheck(dtype)) {
+            PyDict_SetItem(ret, PyUnicode_FromString("typenum"), PyLong_FromLong(dtype->type_num));
+        }
     }
 
     return ret;
 };
 
-static PyObject* cpp2np_freemem(PyObject* self, PyObject* args, PyObject* kwargs){
+static PyObject* cpp2np_free(PyObject* self, PyObject* args, PyObject* kwargs){
     npy_intp ptr;
     std::string keys[] = {"pointer"};
     static char* kwlist[] = {keys[0].data(), NULL};
     if(!PyArg_ParseTupleAndKeywords(args, kwargs, "l", kwlist, &ptr)){
-        return Py_BuildValue("i", 0);
+        return Py_False;
     }
 
     void* buf = (void*) ptr;
     free(buf);
     
-    return Py_BuildValue("i", 1);
+    return Py_True;
 };
 
 static char cpp2np_docs[] = {
@@ -149,7 +172,7 @@ static PyMethodDef cpp2np_funcs[] = {
     {"array_2x2", (PyCFunction)cpp2np_array_2x2, METH_VARARGS | METH_KEYWORDS, "create test array from c++ memory"},
     {"wrap", (PyCFunction)cpp2np_wrap, METH_VARARGS | METH_KEYWORDS, "create numpy array from pointer"},
     {"descr", (PyCFunction)cpp2np_descr, METH_VARARGS | METH_KEYWORDS, "return array interface as dict"},
-    {"freemem", (PyCFunction)cpp2np_freemem, METH_VARARGS | METH_KEYWORDS, "free the memory the pointer is referencing"},
+    {"free", (PyCFunction)cpp2np_free, METH_VARARGS | METH_KEYWORDS, "free the memory the pointer is referencing"},
     {nullptr, nullptr, 0, nullptr}
 };
 
