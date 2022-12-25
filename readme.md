@@ -92,11 +92,11 @@ as it also shows up in the new wrapper. Also deleting the wrapper did not delete
 ### To check if data is contiguous we can look into flags attribute of the numpy array
 
 ```python
->>> print("C contiguous? " + str(wrapper2.flags['C_CONTIGUOUS']))
->>> print("F contiguous? " + str(wrapper2.flags['F_CONTIGUOUS']))
+>>> print("C contiguous: " + str(wrapper2.flags['C_CONTIGUOUS']))
+>>> print("F contiguous: " + str(wrapper2.flags['F_CONTIGUOUS']))
 
-C contiguous? True
-F contiguous? False
+C contiguous: True
+F contiguous: False
 ```    
     
 ### Flags overview
