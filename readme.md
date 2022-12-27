@@ -35,7 +35,7 @@ import numpy as np
 ### Get pointer to 2x2 std::array allocated by c++:
 
 ```python
->>> pointer, shape = c2n.array_2x2()
+>>> pointer, shape = c2n.c_arr_i4()
 >>> print(pointer)
 >>> print(shape)
 
