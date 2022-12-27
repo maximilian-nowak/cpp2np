@@ -20,7 +20,7 @@ wrapper[0,0] = 255
 print(wrapper)
 
 # -----------------------
-print("\ndelete numpy array and create new wrapper from same pointer :")
+print("\ndelete numpy array and create new wrapper from same pointer:")
 del wrapper
 wrapper2 = c2n.wrap(pointer, shape, dtype=np.dtype("int32"))
 print(wrapper2)
