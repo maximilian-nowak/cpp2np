@@ -1,0 +1,102 @@
+\hypertarget{md__home_mnowak_cpp_bv_09me_readme_autotoc_md1}{}\doxysection{Vorgehen}\label{md__home_mnowak_cpp_bv_09me_readme_autotoc_md1}
+\begin{DoxyVerb}1. Vergleichen der verschiedenen Frameworks für C/Python Interfaces
+2. Implementieren von verschiedenen Protoypen
+2. Entscheidung für klassisches CPython mit Erweiterung um C++ compiler
+
+- Aufbau von CPython Modul herzeigen
+- Build-Prozess erläutern.
+
+3. Einarbeitung in API
+4. Suche nach Möglichkeiten zur Pointer-Übergabe:
+
+    aus (C Numpy API):
+
+
+    void *PyArray_DATA(PyArrayObject *arr)
+    char *PyArray_BYTES(PyArrayObject *arr)
+    PyObject *PyArray_FromBuffer(PyObject *buf, PyArray_Descr *dtype, npy_intp count, npy_intp offset)
+
+
+    PyObject *PyArray_SimpleNewFromData(int nd, npy_intp const *dims, int typenum, void *data)
+\end{DoxyVerb}
+\hypertarget{md__home_mnowak_cpp_bv_09me_readme_autotoc_md2}{}\doxysection{Solution}\label{md__home_mnowak_cpp_bv_09me_readme_autotoc_md2}
+
+\begin{DoxyEnumerate}
+\item Use Py\+Object$\ast$ Py\+Array\+\_\+\+Simple\+New\+From\+Data(int nd, npy\+\_\+intp$\ast$ dims, int typenum, void$\ast$ data)
+\item Wrap C-\/pointer in \textquotesingle{}capsule\textquotesingle{} to ensure destruction of object (noch genauer anschauen)
+\end{DoxyEnumerate}\hypertarget{md__home_mnowak_cpp_bv_09me_readme_autotoc_md3}{}\doxysection{Todos\+:}\label{md__home_mnowak_cpp_bv_09me_readme_autotoc_md3}
+
+\begin{DoxyEnumerate}
+\item Speicherfreigabe des C++ Pointers noch nicht getestet.
+\item Argumentenliste für Initialisierung fehlt noch.
+\item Eventuell umschreiben auf moderneren pybind11 Code.
+\end{DoxyEnumerate}\hypertarget{md__home_mnowak_cpp_bv_09me_readme_autotoc_md4}{}\doxysection{Anmerkungen von Prof. Schnörr\+:}\label{md__home_mnowak_cpp_bv_09me_readme_autotoc_md4}
+
+\begin{DoxyItemize}
+\item modul soll mit bereits bestehendem c++ pointer funktionieren können
+\item array pointer wird an methode übergeben und gewrappt
+\item kein pybind11
+\item kompatibilität mit S\+W\+IG wünschenswert
+\end{DoxyItemize}\hypertarget{md__home_mnowak_cpp_bv_09me_readme_autotoc_md5}{}\doxysection{temp notes}\label{md__home_mnowak_cpp_bv_09me_readme_autotoc_md5}
+
+\begin{DoxyItemize}
+\item pybuffer getestet mit -\/$>$ numpy.\+data
+
+a = np.\+array(\mbox{[}2,3,4\mbox{]}) cpp2np.\+hello(a.\+data)
+\end{DoxyItemize}
+
+\begin{DoxyVerb}-> ctypes
+
+c = (ctypes.POINTER(ctypes.c_int)*3)()
+cpp2np.hello(c)
+
+
+int *pointer = data;
+
+for(int i=0; i<buffer->shape[0]; ++i) {+
+pointer += buffer->strides[i]*i;
+if (buffer->suboffsets[i] >=0 ) {
+    pointer = *((int**)pointer)) + buffer->suboffsets[i];
+}
+std::cout << *pointer << std::endl;
+}
+\end{DoxyVerb}
+
+
+\begin{quote}
+\begin{quote}
+\begin{quote}
+import cpp2np import numpy as np import ctypes c\+\_\+arr = ((ctypes.\+c\+\_\+int$\ast$2)$\ast$2)() c\+\_\+arr \end{quote}
+\end{quote}
+\end{quote}
+$<${\bfseries{main}}.c\+\_\+int\+\_\+\+Array\+\_\+2\+\_\+\+Array\+\_\+2 object at 0x7fee1dbafb40$>$ \begin{quote}
+\begin{quote}
+\begin{quote}
+wrapped = cpp2np.\+wrap(c\+\_\+arr, dtype=np.\+dtype(\char`\"{}int32\char`\"{})) wrapped \end{quote}
+\end{quote}
+\end{quote}
+array(\mbox{[}\mbox{[}0, 0\mbox{]}, \mbox{[}0, 0\mbox{]}\mbox{]}, dtype=int32) \begin{quote}
+\begin{quote}
+\begin{quote}
+wrapped\mbox{[}1,1\mbox{]} = 4 wrapped \end{quote}
+\end{quote}
+\end{quote}
+array(\mbox{[}\mbox{[}0, 0\mbox{]}, \mbox{[}0, 4\mbox{]}\mbox{]}, dtype=int32) \begin{quote}
+\begin{quote}
+\begin{quote}
+c\+\_\+arr\mbox{[}1\mbox{]}\mbox{[}1\mbox{]} \end{quote}
+\end{quote}
+\end{quote}
+4 \begin{quote}
+\begin{quote}
+\begin{quote}
+
+
+\end{quote}
+\end{quote}
+\end{quote}
+\hypertarget{md__home_mnowak_cpp_bv_09me_readme_autotoc_md6}{}\doxysection{todo\+:}\label{md__home_mnowak_cpp_bv_09me_readme_autotoc_md6}
+
+\begin{DoxyItemize}
+\item cpp\textquotesingle{}nize code (N\+U\+LL -\/$>$ nulltpr, cast to reinterpret$<$$>$) 
+\end{DoxyItemize}

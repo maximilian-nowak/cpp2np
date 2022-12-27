@@ -5,3 +5,6 @@ all:
 #	pip install -e .
 # use for production
 	pip install .
+
+# optional: generate doxygen (if installed)
+#	doxygen docs/config
