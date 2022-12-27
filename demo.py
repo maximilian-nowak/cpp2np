@@ -3,7 +3,7 @@ import numpy as np
 
 # -----------------------
 print("get pointer on 2x2 std::array of type int allocated by c++:")
-pointer, shape = c2n.array_2x2()
+pointer, shape = c2n.c_arr_i4()
 print(pointer)
 print(shape)
 

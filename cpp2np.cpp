@@ -178,7 +178,7 @@ static PyObject* cpp2np_free(PyObject* self, PyObject* args, PyObject* kwargs){
 /** Allocates a C++ array of 32-bit integer to test the numpy extension.
  * \return A dict object containing the pointer and shape of the array.
 */
-static PyObject* cpp2np_int32array22(PyObject* self, PyObject* args){
+static PyObject* cpp2np_c_arr_i4(PyObject* self, PyObject* args){
     auto* data = new std::array<std::array<int, 2>, 2>({{{1,2},{3,4}}});
 
     npy_intp ptr = (npy_intp) data;
@@ -195,7 +195,7 @@ static PyObject* cpp2np_int32array22(PyObject* self, PyObject* args){
 /** Allocates a C++ array of 64-bit integer to test the numpy extension.
  * \return A dict object containing the pointer and shape of the array.
 */
-static PyObject* cpp2np_int64array22(PyObject* self, PyObject* args){
+static PyObject* cpp2np_c_arr_i8(PyObject* self, PyObject* args){
     auto* data = new std::array<std::array<long int, 2>, 2>({{{1,2},{3,4}}});
 
     npy_intp ptr = (npy_intp) data;
@@ -212,7 +212,7 @@ static PyObject* cpp2np_int64array22(PyObject* self, PyObject* args){
 /** Allocates a C++ array of doubles to test the numpy extension.
  * \return A dict object containing the pointer and shape of the array.
 */
-static PyObject* cpp2np_doublearray22(PyObject* self, PyObject* args){
+static PyObject* cpp2np_c_arr_f8(PyObject* self, PyObject* args){
     auto* data = new std::array<std::array<double, 2>, 2>({{{1,2},{3,4}}});
 
     npy_intp ptr = (npy_intp) data;
@@ -232,9 +232,9 @@ static char cpp2np_docs[] = {
 
 static PyMethodDef cpp2np_funcs[] = {
     {"hello", (PyCFunction)hello, METH_VARARGS, "Hello World"},
-    {"int32array22", (PyCFunction)cpp2np_int32array22, METH_VARARGS | METH_KEYWORDS, "Creates test array of int32 in C++"},
-    {"int64array22", (PyCFunction)cpp2np_int64array22, METH_VARARGS | METH_KEYWORDS, "Creates test array of int64 in C++"},
-    {"doublearray22", (PyCFunction)cpp2np_doublearray22, METH_VARARGS | METH_KEYWORDS, "Creates test array of doubles in C++"},
+    {"c_arr_i4", (PyCFunction)cpp2np_c_arr_i4, METH_VARARGS | METH_KEYWORDS, "Creates test array of int32 in C++"},
+    {"c_arr_i8", (PyCFunction)cpp2np_c_arr_i8, METH_VARARGS | METH_KEYWORDS, "Creates test array of int64 in C++"},
+    {"c_arr_f8", (PyCFunction)cpp2np_c_arr_f8, METH_VARARGS | METH_KEYWORDS, "Creates test array of doubles in C++"},
     {"wrap", (PyCFunction)cpp2np_wrap, METH_VARARGS | METH_KEYWORDS, "Creates numpy array from pointer"},
     {"descr", (PyCFunction)cpp2np_descr, METH_VARARGS | METH_KEYWORDS, "Returns a dict describing the data the numpy array"},
     {"free", (PyCFunction)cpp2np_free, METH_VARARGS | METH_KEYWORDS, "Frees the memory the pointer is referencing"},
