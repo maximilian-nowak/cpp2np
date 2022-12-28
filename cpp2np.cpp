@@ -130,7 +130,7 @@ static PyObject* cpp2np_descr(PyObject* self, PyObject* args, PyObject* kwargs){
             PyDict_SetItem(ret, PyUnicode_FromString("shape"), shape);
         }
     }
-    // if intterface not found, determine from API
+    // if interface not found, determine from API
     if(!interf) {
         npy_intp* shape = PyArray_SHAPE(arr);
         if(shape) {
