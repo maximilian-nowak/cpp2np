@@ -41,7 +41,6 @@ void free_capsule(PyObject *capsule){
 static PyObject* cpp2np_wrap(PyObject* self, PyObject* args, PyObject* kwargs){
     npy_intp ptr;  // npy_intp => intptr_t => unsigned long it
     npy_int free_mem_on_del=0;
-
     PyObject* arr = NULL;
     PyObject* in_shape = NULL;
     PyArray_Descr* dtype = NULL;
@@ -52,7 +51,7 @@ static PyObject* cpp2np_wrap(PyObject* self, PyObject* args, PyObject* kwargs){
         PyErr_BadArgument();
         return NULL;
     }
-    if(dtype && !PyArray_DescrCheck(dtype)) {
+    if(!PyArray_DescrCheck(dtype)) {
         PyErr_SetString(PyExc_TypeError, "kwarg is not valid dtype object");
         return NULL;
     }
