@@ -1,6 +1,6 @@
 /** \file cpp2np.cpp
  * 
- * This file implements a C numpy extension for wrapping C++ arrays inside a numpy array.
+ * This file implements a Numpy extension for wrapping a C style array inside a Numpy array.
  */
 
 #include <Python.h>
