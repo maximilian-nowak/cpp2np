@@ -1,7 +1,4 @@
-/** \file cpp2np.cpp
- * 
- * This file implements a Numpy extension for wrapping a C style array inside a Numpy array.
- */
+/// \file cpp2np.cpp
 
 #include <Python.h>
 
@@ -30,14 +27,17 @@ void free_capsule(PyObject *capsule){
     free(memory);
 };
 
-/** Creates a numpy array from a pointer to a c style array. The data area of the original array needs
- * to be a contiguous block of memory.
- * \param pointer The pointer to the data as long int value.
- * \param shape A python tuple describing the shape of the c array.
- * \param dtype Keyword argument. A numpy dtype object indicating the data type of the array. Defaults to np.dtype('int32'). 
- * \param free_mem_on_del Keyword argument. If True the numpy array will free the data after its own deletion. Defaults to False.
- * \return The numpy array if successful, otherwise NULL.
-*/
+/**
+ *  Creates a numpy array from a pointer to a c style array. The data area of the original array needs
+ *  to be a contiguous block of memory.
+ * 
+ *  \param pointer The pointer to the data as long int value.
+ *  \param shape A python tuple describing the shape of the c array.
+ *  \param dtype Keyword arg. A numpy dtype object indicating the data type of the array. Defaults to 'int32'. 
+ *  \param free_mem_on_del Keyword arg. If True numpy array will free the data after its deletion. Defaults to False.
+ * 
+ *  \return The numpy array if successful, otherwise NULL.
+ */
 static PyObject* cpp2np_wrap(PyObject* self, PyObject* args, PyObject* kwargs){
     npy_intp ptr;  // npy_intp => intptr_t => unsigned long it
     npy_int free_mem_on_del=0;
@@ -49,12 +49,15 @@ static PyObject* cpp2np_wrap(PyObject* self, PyObject* args, PyObject* kwargs){
     std::string keys[] = {"input", "shape", "dtype", "free_mem_on_del"};
     static char* kwlist[] = {keys[0].data(), keys[1].data(), keys[2].data(), keys[3].data(), NULL};
     if(!PyArg_ParseTupleAndKeywords(args, kwargs, "lO|Oi", kwlist, &ptr, &in_shape, &dtype, &free_mem_on_del)){
+        PyErr_BadArgument();
         return NULL;
     }
     if(dtype && !PyArray_DescrCheck(dtype)) {
+        PyErr_SetString(PyExc_TypeError, "kwarg is not valid dtype object");
         return NULL;
     }
     if(!PyTuple_Check(in_shape)) {
+        PyErr_SetString(PyExc_TypeError, "shape arg needs to be tuple");
         return NULL;
     }
     
@@ -74,6 +77,7 @@ static PyObject* cpp2np_wrap(PyObject* self, PyObject* args, PyObject* kwargs){
     if(free_mem_on_del) {
         PyObject* capsule = PyCapsule_New(buf, "buffer_capsule", (PyCapsule_Destructor) &free_capsule);
         if (PyArray_SetBaseObject((PyArrayObject*)arr, capsule) == -1) {
+            PyErr_SetString(PyExc_Exception, "failed to set array as base object to data");
             Py_DECREF(arr);
             return NULL;
         }
@@ -81,9 +85,12 @@ static PyObject* cpp2np_wrap(PyObject* self, PyObject* args, PyObject* kwargs){
     return arr;
 };
 
-/** Describes the data of a given numpy array.
- * \return A dict object containing the pointer, number of dimensions, shape and data type of the numpy array.
-*/
+/**
+ *  Describes the data of a given numpy array.
+ *  
+ *  \return A dict object containing the pointer, number of dimensions, shape and
+ *      data type of the numpy array.
+ */
 static PyObject* cpp2np_descr(PyObject* self, PyObject* args, PyObject* kwargs){
     PyObject* input = NULL;
     PyArrayObject* arr = NULL;
@@ -92,12 +99,14 @@ static PyObject* cpp2np_descr(PyObject* self, PyObject* args, PyObject* kwargs){
     std::string keys[] = {"input"};
     static char* kwlist[] = {keys[0].data(), NULL};
     if(!PyArg_ParseTupleAndKeywords(args, kwargs, "O", kwlist, &input)){
+        PyErr_BadArgument();
         return NULL;
     }
 
     if(PyArray_Check(input)) {
         arr = (PyArrayObject*) input;
     } else {
+        PyErr_SetString(PyExc_TypeError, "arg is not valid numpy array");
         return NULL;
     }
     
@@ -158,14 +167,15 @@ static PyObject* cpp2np_descr(PyObject* self, PyObject* args, PyObject* kwargs){
 
 /** Frees the memory to a given pointer.
  * 
- * \param pointer The pointer as long int value.
- * \return True if successful, otherwise False.
-*/
+ *  \param pointer The pointer as long int value.
+ *  \return True if successful, otherwise False.
+ */
 static PyObject* cpp2np_free(PyObject* self, PyObject* args, PyObject* kwargs){
     npy_intp ptr;
     std::string keys[] = {"pointer"};
     static char* kwlist[] = {keys[0].data(), NULL};
     if(!PyArg_ParseTupleAndKeywords(args, kwargs, "l", kwlist, &ptr)){
+        PyErr_BadArgument();
         return Py_False;
     }
 
@@ -175,61 +185,42 @@ static PyObject* cpp2np_free(PyObject* self, PyObject* args, PyObject* kwargs){
     return Py_True;
 };
 
-/** Allocates a C++ array of 32-bit integer to test the numpy extension.
- * \return A dict object containing the pointer and shape of the array.
-*/
+/// allocates a c++ array of 32 bit integer. \returns pointer and shape.
 static PyObject* cpp2np_c_arr_i4(PyObject* self, PyObject* args){
     auto* data = new std::array<std::array<int, 2>, 2>({{{1,2},{3,4}}});
-
     npy_intp ptr = (npy_intp) data;
-    // std::cout << ptr << std::endl;
-
     PyObject* ret = PyTuple_New(2);
     PyTuple_SET_ITEM(ret, 0, PyLong_FromLong(ptr));
     PyTuple_SET_ITEM(ret, 1, Py_BuildValue("(ii)", 2, 2));
-
-    // return PyLong_FromLong(ptr);
     return ret;
 };
 
-/** Allocates a C++ array of 64-bit integer to test the numpy extension.
- * \return A dict object containing the pointer and shape of the array.
-*/
+/// allocates a c++ array of 64 bit integer. \returns pointer and shape.  
 static PyObject* cpp2np_c_arr_i8(PyObject* self, PyObject* args){
     auto* data = new std::array<std::array<long int, 2>, 2>({{{1,2},{3,4}}});
-
     npy_intp ptr = (npy_intp) data;
-    // std::cout << ptr << std::endl;
-
     PyObject* ret = PyTuple_New(2);
     PyTuple_SET_ITEM(ret, 0, PyLong_FromLong(ptr));
     PyTuple_SET_ITEM(ret, 1, Py_BuildValue("(ii)", 2, 2));
-
-    // return PyLong_FromLong(ptr);
     return ret;
 };
 
-/** Allocates a C++ array of doubles to test the numpy extension.
- * \return A dict object containing the pointer and shape of the array.
-*/
+/// allocates a c++ array of doubles. \returns pointer and shape.  
 static PyObject* cpp2np_c_arr_f8(PyObject* self, PyObject* args){
-    auto* data = new std::array<std::array<double, 2>, 2>({{{1,2},{3,4}}});
-
+    auto* data = new std::array<std::array<double, 2>, 2>({{{1.0, 2.0},{3.0, 4.0}}});
     npy_intp ptr = (npy_intp) data;
-    // std::cout << ptr << std::endl;
-
     PyObject* ret = PyTuple_New(2);
     PyTuple_SET_ITEM(ret, 0, PyLong_FromLong(ptr));
     PyTuple_SET_ITEM(ret, 1, Py_BuildValue("(ii)", 2, 2));
-
-    // return PyLong_FromLong(ptr);
     return ret;
 };
 
+/// stores docstring information of the module
 static char cpp2np_docs[] = {
     "C Numpy extension for wrapping continuous C/C++ style arrays inside a numpy array using the same memory buffer.\n"
 };
 
+/// mapping of module functions and docstrings
 static PyMethodDef cpp2np_funcs[] = {
     {"hello", (PyCFunction)hello, METH_VARARGS, "Hello World"},
     {"c_arr_i4", (PyCFunction)cpp2np_c_arr_i4, METH_VARARGS | METH_KEYWORDS, "Creates test array of int32 in C++"},
@@ -250,6 +241,6 @@ static struct PyModuleDef cpp2npmodule = {
 };
 
 PyMODINIT_FUNC PyInit_cpp2np(void){
-    import_array();  // imports numpy
+    import_array();  // imports numpy support
     return PyModule_Create(&cpp2npmodule);
 };

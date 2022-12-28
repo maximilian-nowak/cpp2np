@@ -79,7 +79,7 @@ Problem mit setup.py</h1>
 </pre><h1><a class="anchor" id="autotoc_md4"></a>
 Demo</h1>
 <h2><a class="anchor" id="autotoc_md5"></a>
-import module</h2>
+Import module</h2>
 <div class="fragment"><div class="line">import cpp2np as c2n</div>
 <div class="line">import numpy as np</div>
 </div><!-- fragment --><h2><a class="anchor" id="autotoc_md6"></a>
@@ -91,7 +91,7 @@ Get pointer to 2x2 std::array allocated by c++:</h2>
 <div class="line">24245840</div>
 <div class="line">(2, 2)</div>
 </div><!-- fragment --><h2><a class="anchor" id="autotoc_md7"></a>
-wrap pointer in numpy array</h2>
+Wrap pointer in numpy array</h2>
 <div class="fragment"><div class="line">&gt;&gt;&gt; wrapper = c2n.wrap(pointer, shape, dtype=np.dtype(&quot;int32&quot;))</div>
 <div class="line">&gt;&gt;&gt; print(wrapper)</div>
 <div class="line">&gt;&gt;&gt; print(type(wrapper))</div>
@@ -101,14 +101,14 @@ wrap pointer in numpy array</h2>
 <div class="line"> </div>
 <div class="line">&lt;class numpy.ndarray&gt;</div>
 </div><!-- fragment --><h2><a class="anchor" id="autotoc_md8"></a>
-change value in numpy array</h2>
+Change value in numpy array</h2>
 <div class="fragment"><div class="line">&gt;&gt;&gt; wrapper[0,0] = 255</div>
 <div class="line">&gt;&gt;&gt; print(wrapper)</div>
 <div class="line"> </div>
 <div class="line">[[255   2]</div>
 <div class="line">[  3   4]]</div>
 </div><!-- fragment --><h2><a class="anchor" id="autotoc_md9"></a>
-delete numpy array and create new wrapper from same pointer</h2>
+Delete numpy array and create new wrapper from same pointer</h2>
 <div class="fragment"><div class="line">&gt;&gt;&gt; del wrapper</div>
 <div class="line">&gt;&gt;&gt; wrapper2 = c2n.wrap(pointer, shape, dtype=np.dtype(&quot;int32&quot;))</div>
 <div class="line">&gt;&gt;&gt; print(wrapper2)</div>

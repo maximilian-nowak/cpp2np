@@ -38,27 +38,24 @@ static Py\+Object $\ast$ \mbox{\hyperlink{cpp2np_8cpp_a8b1ee65b6b9f8a5e3cf2a49bf
 static Py\+Object $\ast$ \mbox{\hyperlink{cpp2np_8cpp_a9eb9de49fffad1ff7da918399220dafb}{cpp2np\+\_\+free}} (Py\+Object $\ast$self, Py\+Object $\ast$args, Py\+Object $\ast$kwargs)
 \item 
 static Py\+Object $\ast$ \mbox{\hyperlink{cpp2np_8cpp_a7d3e5c23d89290c09a8e5bdf680b3033}{cpp2np\+\_\+c\+\_\+arr\+\_\+i4}} (Py\+Object $\ast$self, Py\+Object $\ast$args)
-\item 
+\begin{DoxyCompactList}\small\item\em allocates a c++ array of 32 bit integer. \end{DoxyCompactList}\item 
 static Py\+Object $\ast$ \mbox{\hyperlink{cpp2np_8cpp_a4239734cef98aa295c18030f01873c89}{cpp2np\+\_\+c\+\_\+arr\+\_\+i8}} (Py\+Object $\ast$self, Py\+Object $\ast$args)
-\item 
+\begin{DoxyCompactList}\small\item\em allocates a c++ array of 64 bit integer. \end{DoxyCompactList}\item 
 static Py\+Object $\ast$ \mbox{\hyperlink{cpp2np_8cpp_a136ae531b21865b88e0f33b92d16236e}{cpp2np\+\_\+c\+\_\+arr\+\_\+f8}} (Py\+Object $\ast$self, Py\+Object $\ast$args)
-\item 
+\begin{DoxyCompactList}\small\item\em allocates a c++ array of doubles. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{cpp2np_8cpp_a31ee1ca4ddd6e382c1828c19560d8ed0}\label{cpp2np_8cpp_a31ee1ca4ddd6e382c1828c19560d8ed0}} 
 Py\+M\+O\+D\+I\+N\+I\+T\+\_\+\+F\+U\+NC {\bfseries Py\+Init\+\_\+cpp2np} (void)
 \end{DoxyCompactItemize}
 \doxysubsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
-static char {\bfseries cpp2np\+\_\+docs} \mbox{[}$\,$\mbox{]}
-\item 
-static Py\+Method\+Def {\bfseries cpp2np\+\_\+funcs} \mbox{[}$\,$\mbox{]}
-\item 
+static char \mbox{\hyperlink{cpp2np_8cpp_a29bc172d9661a22bd8a78b4e3fa082af}{cpp2np\+\_\+docs}} \mbox{[}$\,$\mbox{]}
+\begin{DoxyCompactList}\small\item\em stores docstring information of the module \end{DoxyCompactList}\item 
+static Py\+Method\+Def \mbox{\hyperlink{cpp2np_8cpp_af43f42e6db326f822b4be73ff0061ba9}{cpp2np\+\_\+funcs}} \mbox{[}$\,$\mbox{]}
+\begin{DoxyCompactList}\small\item\em mapping of module functions and docstrings \end{DoxyCompactList}\item 
 static struct Py\+Module\+Def {\bfseries cpp2npmodule}
 \end{DoxyCompactItemize}
 
-
-\doxysubsection{Detailed Description}
-This file implements a Numpy extension for wrapping a C style array inside a Numpy array. 
 
 \doxysubsection{Function Documentation}
 \mbox{\Hypertarget{cpp2np_8cpp_a136ae531b21865b88e0f33b92d16236e}\label{cpp2np_8cpp_a136ae531b21865b88e0f33b92d16236e}} 
@@ -67,8 +64,13 @@ This file implements a Numpy extension for wrapping a C style array inside a Num
 \doxysubsubsection{\texorpdfstring{cpp2np\_c\_arr\_f8()}{cpp2np\_c\_arr\_f8()}}
 {\footnotesize\ttfamily static Py\+Object$\ast$ cpp2np\+\_\+c\+\_\+arr\+\_\+f8 (\begin{DoxyParamCaption}\item[{Py\+Object $\ast$}]{self,  }\item[{Py\+Object $\ast$}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
-Allocates a C++ array of doubles to test the numpy extension. \begin{DoxyReturn}{Returns}
-A dict object containing the pointer and shape of the array. 
+
+
+allocates a c++ array of doubles. 
+
+\begin{DoxyReturn}{Returns}
+pointer and shape. ~\newline
+ 
 \end{DoxyReturn}
 \mbox{\Hypertarget{cpp2np_8cpp_a7d3e5c23d89290c09a8e5bdf680b3033}\label{cpp2np_8cpp_a7d3e5c23d89290c09a8e5bdf680b3033}} 
 \index{cpp2np.cpp@{cpp2np.cpp}!cpp2np\_c\_arr\_i4@{cpp2np\_c\_arr\_i4}}
@@ -76,8 +78,12 @@ A dict object containing the pointer and shape of the array.
 \doxysubsubsection{\texorpdfstring{cpp2np\_c\_arr\_i4()}{cpp2np\_c\_arr\_i4()}}
 {\footnotesize\ttfamily static Py\+Object$\ast$ cpp2np\+\_\+c\+\_\+arr\+\_\+i4 (\begin{DoxyParamCaption}\item[{Py\+Object $\ast$}]{self,  }\item[{Py\+Object $\ast$}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
-Allocates a C++ array of 32-\/bit integer to test the numpy extension. \begin{DoxyReturn}{Returns}
-A dict object containing the pointer and shape of the array. 
+
+
+allocates a c++ array of 32 bit integer. 
+
+\begin{DoxyReturn}{Returns}
+pointer and shape. 
 \end{DoxyReturn}
 \mbox{\Hypertarget{cpp2np_8cpp_a4239734cef98aa295c18030f01873c89}\label{cpp2np_8cpp_a4239734cef98aa295c18030f01873c89}} 
 \index{cpp2np.cpp@{cpp2np.cpp}!cpp2np\_c\_arr\_i8@{cpp2np\_c\_arr\_i8}}
@@ -85,8 +91,13 @@ A dict object containing the pointer and shape of the array.
 \doxysubsubsection{\texorpdfstring{cpp2np\_c\_arr\_i8()}{cpp2np\_c\_arr\_i8()}}
 {\footnotesize\ttfamily static Py\+Object$\ast$ cpp2np\+\_\+c\+\_\+arr\+\_\+i8 (\begin{DoxyParamCaption}\item[{Py\+Object $\ast$}]{self,  }\item[{Py\+Object $\ast$}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
-Allocates a C++ array of 64-\/bit integer to test the numpy extension. \begin{DoxyReturn}{Returns}
-A dict object containing the pointer and shape of the array. 
+
+
+allocates a c++ array of 64 bit integer. 
+
+\begin{DoxyReturn}{Returns}
+pointer and shape. ~\newline
+ 
 \end{DoxyReturn}
 \mbox{\Hypertarget{cpp2np_8cpp_a8b1ee65b6b9f8a5e3cf2a49bffe80310}\label{cpp2np_8cpp_a8b1ee65b6b9f8a5e3cf2a49bffe80310}} 
 \index{cpp2np.cpp@{cpp2np.cpp}!cpp2np\_descr@{cpp2np\_descr}}
@@ -94,7 +105,9 @@ A dict object containing the pointer and shape of the array.
 \doxysubsubsection{\texorpdfstring{cpp2np\_descr()}{cpp2np\_descr()}}
 {\footnotesize\ttfamily static Py\+Object$\ast$ cpp2np\+\_\+descr (\begin{DoxyParamCaption}\item[{Py\+Object $\ast$}]{self,  }\item[{Py\+Object $\ast$}]{args,  }\item[{Py\+Object $\ast$}]{kwargs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
-Describes the data of a given numpy array. \begin{DoxyReturn}{Returns}
+Describes the data of a given numpy array.
+
+\begin{DoxyReturn}{Returns}
 A dict object containing the pointer, number of dimensions, shape and data type of the numpy array. 
 \end{DoxyReturn}
 \mbox{\Hypertarget{cpp2np_8cpp_a9eb9de49fffad1ff7da918399220dafb}\label{cpp2np_8cpp_a9eb9de49fffad1ff7da918399220dafb}} 
@@ -119,15 +132,17 @@ True if successful, otherwise False.
 \doxysubsubsection{\texorpdfstring{cpp2np\_wrap()}{cpp2np\_wrap()}}
 {\footnotesize\ttfamily static Py\+Object$\ast$ cpp2np\+\_\+wrap (\begin{DoxyParamCaption}\item[{Py\+Object $\ast$}]{self,  }\item[{Py\+Object $\ast$}]{args,  }\item[{Py\+Object $\ast$}]{kwargs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
-Creates a numpy array from a pointer to a c style array. The data area of the original array needs to be a contiguous block of memory. 
+Creates a numpy array from a pointer to a c style array. The data area of the original array needs to be a contiguous block of memory.
+
+
 \begin{DoxyParams}{Parameters}
 {\em pointer} & The pointer to the data as long int value. \\
 \hline
 {\em shape} & A python tuple describing the shape of the c array. \\
 \hline
-{\em dtype} & Keyword argument. A numpy dtype object indicating the data type of the array. Defaults to np.\+dtype(\textquotesingle{}int32\textquotesingle{}). \\
+{\em dtype} & Keyword arg. A numpy dtype object indicating the data type of the array. Defaults to \textquotesingle{}int32\textquotesingle{}. \\
 \hline
-{\em free\+\_\+mem\+\_\+on\+\_\+del} & Keyword argument. If True the numpy array will free the data after its own deletion. Defaults to False. \\
+{\em free\+\_\+mem\+\_\+on\+\_\+del} & Keyword arg. If True numpy array will free the data after its deletion. Defaults to False.\\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -149,6 +164,10 @@ The numpy array if successful, otherwise N\+U\+LL.
 \DoxyCodeLine{\}}
 
 \end{DoxyCode}
+
+
+stores docstring information of the module 
+
 \mbox{\Hypertarget{cpp2np_8cpp_af43f42e6db326f822b4be73ff0061ba9}\label{cpp2np_8cpp_af43f42e6db326f822b4be73ff0061ba9}} 
 \index{cpp2np.cpp@{cpp2np.cpp}!cpp2np\_funcs@{cpp2np\_funcs}}
 \index{cpp2np\_funcs@{cpp2np\_funcs}!cpp2np.cpp@{cpp2np.cpp}}
@@ -169,6 +188,10 @@ The numpy array if successful, otherwise N\+U\+LL.
 \DoxyCodeLine{\}}
 
 \end{DoxyCode}
+
+
+mapping of module functions and docstrings 
+
 \mbox{\Hypertarget{cpp2np_8cpp_a481b63717de73783f8b30b001dc7fefd}\label{cpp2np_8cpp_a481b63717de73783f8b30b001dc7fefd}} 
 \index{cpp2np.cpp@{cpp2np.cpp}!cpp2npmodule@{cpp2npmodule}}
 \index{cpp2npmodule@{cpp2npmodule}!cpp2np.cpp@{cpp2np.cpp}}
@@ -180,9 +203,9 @@ The numpy array if successful, otherwise N\+U\+LL.
 \DoxyCodeLine{= \{}
 \DoxyCodeLine{    PyModuleDef\_HEAD\_INIT,}
 \DoxyCodeLine{    \textcolor{stringliteral}{"cpp2np"},}
-\DoxyCodeLine{    cpp2np\_docs,}
+\DoxyCodeLine{    \mbox{\hyperlink{cpp2np_8cpp_a29bc172d9661a22bd8a78b4e3fa082af}{cpp2np\_docs}},}
 \DoxyCodeLine{    -\/1,}
-\DoxyCodeLine{    cpp2np\_funcs}
+\DoxyCodeLine{    \mbox{\hyperlink{cpp2np_8cpp_af43f42e6db326f822b4be73ff0061ba9}{cpp2np\_funcs}}}
 \DoxyCodeLine{\}}
 
 \end{DoxyCode}

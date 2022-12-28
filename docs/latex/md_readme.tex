@@ -10,7 +10,7 @@ Falls die Installation nicht klappt, könnte eine Lösung sein, die .so Datei ma
 Dazu führt man folgenden Befehl im Root-\/\+Verzeichnis des Projektes aus\+: \begin{DoxyVerb}user@HOST:~/cpp2np$ echo export LD_LIBRARY_PATH=$(pwd)/build/lib.linux-x86_64-cpython-310 >> ~/.bashrc
 \end{DoxyVerb}
 \hypertarget{md_readme_autotoc_md4}{}\doxysection{Demo}\label{md_readme_autotoc_md4}
-\hypertarget{md_readme_autotoc_md5}{}\doxysubsection{import module}\label{md_readme_autotoc_md5}
+\hypertarget{md_readme_autotoc_md5}{}\doxysubsection{Import module}\label{md_readme_autotoc_md5}
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{import cpp2np as c2n}
@@ -26,7 +26,7 @@ Dazu führt man folgenden Befehl im Root-\/\+Verzeichnis des Projektes aus\+: \b
 \DoxyCodeLine{24245840}
 \DoxyCodeLine{(2, 2)}
 \end{DoxyCode}
-\hypertarget{md_readme_autotoc_md7}{}\doxysubsection{wrap pointer in numpy array}\label{md_readme_autotoc_md7}
+\hypertarget{md_readme_autotoc_md7}{}\doxysubsection{Wrap pointer in numpy array}\label{md_readme_autotoc_md7}
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{>>> wrapper = c2n.wrap(pointer, shape, dtype=np.dtype("int32"))}
@@ -38,7 +38,7 @@ Dazu führt man folgenden Befehl im Root-\/\+Verzeichnis des Projektes aus\+: \b
 \DoxyCodeLine{}
 \DoxyCodeLine{<class numpy.ndarray>}
 \end{DoxyCode}
-\hypertarget{md_readme_autotoc_md8}{}\doxysubsection{change value in numpy array}\label{md_readme_autotoc_md8}
+\hypertarget{md_readme_autotoc_md8}{}\doxysubsection{Change value in numpy array}\label{md_readme_autotoc_md8}
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{>>> wrapper[0,0] = 255}
@@ -47,7 +47,7 @@ Dazu führt man folgenden Befehl im Root-\/\+Verzeichnis des Projektes aus\+: \b
 \DoxyCodeLine{[[255   2]}
 \DoxyCodeLine{[  3   4]]}
 \end{DoxyCode}
-\hypertarget{md_readme_autotoc_md9}{}\doxysubsection{delete numpy array and create new wrapper from same pointer}\label{md_readme_autotoc_md9}
+\hypertarget{md_readme_autotoc_md9}{}\doxysubsection{Delete numpy array and create new wrapper from same pointer}\label{md_readme_autotoc_md9}
 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{>>> del wrapper}
