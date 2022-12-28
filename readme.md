@@ -25,7 +25,7 @@ Dazu führt man folgenden Befehl im Root-Verzeichnis des Projektes aus:
 
 ## Demo
 
-### import module
+### Import module
 
 ```python
 import cpp2np as c2n
@@ -43,7 +43,7 @@ import numpy as np
 (2, 2)
 ```
 
-### wrap pointer in numpy array
+### Wrap pointer in numpy array
 
 ```python
 >>> wrapper = c2n.wrap(pointer, shape, dtype=np.dtype("int32"))
@@ -56,7 +56,7 @@ import numpy as np
 <class numpy.ndarray>
 ```
 
-### change value in numpy array
+### Change value in numpy array
 
 ```python
 >>> wrapper[0,0] = 255
@@ -66,7 +66,7 @@ import numpy as np
 [  3   4]]
 ```
 
-### delete numpy array and create new wrapper from same pointer
+### Delete numpy array and create new wrapper from same pointer
 
 ```python
 >>> del wrapper
