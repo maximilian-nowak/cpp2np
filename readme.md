@@ -143,6 +143,6 @@ WRITEBACKIFCOPY : False
 
 We observe that the numpy array is pointing nowhere as the original buffer was freed on the c++ side.
 
-### Demo2
+## Demo2
 
 Apart from the source module in `demo2.py` there's a html file in the docs directory which includes sample outputs of the script: *docs/demo2.html*.
