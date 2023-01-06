@@ -145,4 +145,4 @@ We observe that the numpy array is pointing nowhere as the original buffer was f
 
 ## Demo2
 
-Apart from the source module in `demo2.py` there's a html file in the docs directory which includes sample outputs of the script: *docs/demo2.html*.
+Apart from the source module in `demo2.py` there's a html file and jupyter notebook in the docs directory containing sample outputs of the script: *docs/demo2.html*.
