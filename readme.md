@@ -1,18 +1,37 @@
 # cpp2np
 
 ## Requirements
+
     Python >= 3.9
     numpy >= 1.23.4
     g++ >= 9.3.0
     GNU Make >= 4.2.1
 
+Zusätzliche requirements für `demo2.py`:
+
+    pillow >= 9.4.0
+    matplotlib >= 3.6.2
+    scipy >= 1.9.2
+
+Generieren der doxygen Dokumentation (optional):
+
+1. Installation von doxygen
+2. Befehl:
+
+        doxygen docs/config
+
 ## Installation
 
 Zur Installation führt man den 'make' Befehl im Root-Verzeichnis des Projektes aus.
 
-    user@HOST:~/cpp2np$ make
+    make
 
-Das cpp2np Modul wird automatisch gebaut und im environment installiert.
+Das cpp2np Modul wird automatisch gebaut und im environment installiert. Im Makefile gibt es noch den unten stehenden Abschnitt. Damit steuert man, ob die .so Datei lokal im Projekt installiert wird, oder global.
+
+    # use for debugging (local)
+        pip install -e .
+    # use for production (global)
+    #	pip install .
     
 ## Problem mit setup.py
 
@@ -21,7 +40,7 @@ der dynamic linked libraries hinzuzufügen.
 
 Dazu führt man folgenden Befehl im Root-Verzeichnis des Projektes aus:
 
-    user@HOST:~/cpp2np$ echo export LD_LIBRARY_PATH=$(pwd)/build/lib.linux-x86_64-cpython-310 >> ~/.bashrc
+    echo export LD_LIBRARY_PATH=$(pwd)/build/lib.linux-x86_64-cpython-310 >> ~/.bashrc
 
 ## Demo
 

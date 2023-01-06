@@ -67,15 +67,30 @@ $(function() {
 <div class="contents">
 <div class="textblock"><h1><a class="anchor" id="autotoc_md1"></a>
 Requirements</h1>
-<p>Python &gt;= 3.9 numpy &gt;= 1.23.4 g++ &gt;= 9.3.0 GNU Make &gt;= 4.2.1</p>
+<pre class="fragment">Python &gt;= 3.9
+numpy &gt;= 1.23.4
+g++ &gt;= 9.3.0
+GNU Make &gt;= 4.2.1
+</pre><p>Zusätzliche requirements für <code>demo2.py</code>: </p><pre class="fragment">pillow &gt;= 9.4.0
+matplotlib &gt;= 3.6.2
+scipy &gt;= 1.9.2
+</pre><p>Generieren der doxygen Dokumentation (optional):</p>
+<ol type="1">
+<li>Installation von doxygen</li>
+<li>Befehl: <pre class="fragment"> doxygen docs/config
+</pre></li>
+</ol>
 <h1><a class="anchor" id="autotoc_md2"></a>
 Installation</h1>
-<p>Zur Installation führt man den 'make' Befehl im Root-Verzeichnis des Projektes aus. </p><pre class="fragment">user@HOST:~/cpp2np$ make
-</pre><p>Das cpp2np Modul wird automatisch gebaut und im environment installiert.</p>
-<h1><a class="anchor" id="autotoc_md3"></a>
+<p>Zur Installation führt man den 'make' Befehl im Root-Verzeichnis des Projektes aus. </p><pre class="fragment">make
+</pre><p>Das cpp2np Modul wird automatisch gebaut und im environment installiert. Im Makefile gibt es noch den unten stehenden Abschnitt. Damit steuert man, ob die .so Datei lokal im Projekt installiert wird, oder global. </p><pre class="fragment"># use for debugging (local)
+    pip install -e .
+# use for production (global)
+#   pip install .
+</pre><h1><a class="anchor" id="autotoc_md3"></a>
 Problem mit setup.py</h1>
 <p>Falls die Installation nicht klappt, könnte eine Lösung sein, die .so Datei manuell zum Pfad der dynamic linked libraries hinzuzufügen.</p>
-<p>Dazu führt man folgenden Befehl im Root-Verzeichnis des Projektes aus: </p><pre class="fragment">user@HOST:~/cpp2np$ echo export LD_LIBRARY_PATH=$(pwd)/build/lib.linux-x86_64-cpython-310 &gt;&gt; ~/.bashrc
+<p>Dazu führt man folgenden Befehl im Root-Verzeichnis des Projektes aus: </p><pre class="fragment">echo export LD_LIBRARY_PATH=$(pwd)/build/lib.linux-x86_64-cpython-310 &gt;&gt; ~/.bashrc
 </pre><h1><a class="anchor" id="autotoc_md4"></a>
 Demo</h1>
 <h2><a class="anchor" id="autotoc_md5"></a>

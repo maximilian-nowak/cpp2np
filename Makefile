@@ -2,9 +2,6 @@ all:
 	python3 setup.py build --force
 
 # use for debugging
-#	pip install -e .
+	pip install -e .
 # use for production
-	pip install .
-
-# optional: generate doxygen (if installed)
-#	doxygen docs/config
+#	pip install .

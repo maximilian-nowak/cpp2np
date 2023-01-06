@@ -7,7 +7,7 @@ pointer, shape = c2n.c_arr_i4()
 print(pointer)
 print(shape)
 
-# -----------------------
+# -----------------------e
 print("\nwrap pointer in numpy array:")
 wrapper = c2n.wrap(pointer, shape, dtype=np.dtype("int32"))
 print(wrapper)

@@ -15,7 +15,7 @@ setup(name='cpp2np',
     description='C Numpy extension for wrapping continuous C/C++ style arrays inside a numpy array using the same memory buffer.',
     ext_modules=[
         Extension('cpp2np',
-            sources = ['cpp2np.cpp'],
+            sources = ['src/cpp2np.cpp'],
             include_dirs = [numpy.get_include()],
         )
     ],

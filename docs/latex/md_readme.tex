@@ -1,13 +1,39 @@
 \hypertarget{md_readme_autotoc_md1}{}\doxysection{Requirements}\label{md_readme_autotoc_md1}
-Python $>$= 3.\+9 numpy $>$= 1.\+23.\+4 g++ $>$= 9.\+3.\+0 G\+NU Make $>$= 4.\+2.\+1\hypertarget{md_readme_autotoc_md2}{}\doxysection{Installation}\label{md_readme_autotoc_md2}
-Zur Installation führt man den \textquotesingle{}make\textquotesingle{} Befehl im Root-\/\+Verzeichnis des Projektes aus. \begin{DoxyVerb}user@HOST:~/cpp2np$ make
+\begin{DoxyVerb}Python >= 3.9
+numpy >= 1.23.4
+g++ >= 9.3.0
+GNU Make >= 4.2.1
 \end{DoxyVerb}
 
 
-Das cpp2np Modul wird automatisch gebaut und im environment installiert.\hypertarget{md_readme_autotoc_md3}{}\doxysection{Problem mit setup.\+py}\label{md_readme_autotoc_md3}
+Zusätzliche requirements für {\ttfamily demo2.\+py}\+: \begin{DoxyVerb}pillow >= 9.4.0
+matplotlib >= 3.6.2
+scipy >= 1.9.2
+\end{DoxyVerb}
+
+
+Generieren der doxygen Dokumentation (optional)\+:
+
+
+\begin{DoxyEnumerate}
+\item Installation von doxygen
+\item Befehl\+: \begin{DoxyVerb} doxygen docs/config
+\end{DoxyVerb}
+
+\end{DoxyEnumerate}\hypertarget{md_readme_autotoc_md2}{}\doxysection{Installation}\label{md_readme_autotoc_md2}
+Zur Installation führt man den \textquotesingle{}make\textquotesingle{} Befehl im Root-\/\+Verzeichnis des Projektes aus. \begin{DoxyVerb}make
+\end{DoxyVerb}
+
+
+Das cpp2np Modul wird automatisch gebaut und im environment installiert. Im Makefile gibt es noch den unten stehenden Abschnitt. Damit steuert man, ob die .so Datei lokal im Projekt installiert wird, oder global. \begin{DoxyVerb}# use for debugging (local)
+    pip install -e .
+# use for production (global)
+#   pip install .
+\end{DoxyVerb}
+\hypertarget{md_readme_autotoc_md3}{}\doxysection{Problem mit setup.\+py}\label{md_readme_autotoc_md3}
 Falls die Installation nicht klappt, könnte eine Lösung sein, die .so Datei manuell zum Pfad der dynamic linked libraries hinzuzufügen.
 
-Dazu führt man folgenden Befehl im Root-\/\+Verzeichnis des Projektes aus\+: \begin{DoxyVerb}user@HOST:~/cpp2np$ echo export LD_LIBRARY_PATH=$(pwd)/build/lib.linux-x86_64-cpython-310 >> ~/.bashrc
+Dazu führt man folgenden Befehl im Root-\/\+Verzeichnis des Projektes aus\+: \begin{DoxyVerb}echo export LD_LIBRARY_PATH=$(pwd)/build/lib.linux-x86_64-cpython-310 >> ~/.bashrc
 \end{DoxyVerb}
 \hypertarget{md_readme_autotoc_md4}{}\doxysection{Demo}\label{md_readme_autotoc_md4}
 \hypertarget{md_readme_autotoc_md5}{}\doxysubsection{Import module}\label{md_readme_autotoc_md5}
