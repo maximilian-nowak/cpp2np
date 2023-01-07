@@ -227,14 +227,18 @@ static PyObject* cpp2np_c_arr_pixel(PyObject* self, PyObject* args){
          {-16, -107, -128, -109, -128, -98, 4, 7},
          {35, 1, -45, -61, -59, -21, 11, 31}}}
     );
+
     npy_intp ptr = (npy_intp) data;
     PyObject* ret = PyTuple_New(2);
     PyTuple_SET_ITEM(ret, 0, PyLong_FromLong(ptr));
     PyTuple_SET_ITEM(ret, 1, Py_BuildValue("(ii)", size, size));
+
+    std::cout << "Created pixel matrix with pointer: " << ptr << std::endl;
+
     return ret;
 };
 
-/// Writes the content of the demo matrix to standard output. \returns True if successful
+/// Prints an 8x8 matrix of int16 to standard output. \returns True if successful
 static PyObject* cpp2np_print_arr(PyObject* self, PyObject* args, PyObject* kwargs){
     npy_intp ptr;
     std::string keys[] = {"pointer"};
@@ -243,12 +247,18 @@ static PyObject* cpp2np_print_arr(PyObject* self, PyObject* args, PyObject* kwar
         PyErr_BadArgument();
         return Py_False;
     }
+
     constexpr int size = 8;
     typedef std::array<std::array<int16_t, size>, size> array_int16t_8x8;
     array_int16t_8x8 *matrix = (array_int16t_8x8 *) ptr;
+
+    std::cout << "pointer address: " << ptr << std::endl;
     for (int i = 0; i < 8; ++i) {
         printf("[%4d %4d %4d %4d %4d %4d %4d %4d]\n", (*matrix)[i][0], (*matrix)[i][1], (*matrix)[i][2], (*matrix)[i][3], (*matrix)[i][4], (*matrix)[i][5], (*matrix)[i][6], (*matrix)[i][7]);
     }
+
+    (*matrix)[0][0] = 255;  // to verify that memory is writable
+
     return Py_True;
 };
 
@@ -264,7 +274,7 @@ static PyMethodDef cpp2np_funcs[] = {
     {"c_arr_i8", (PyCFunction)cpp2np_c_arr_i8, METH_VARARGS | METH_KEYWORDS, "Creates test array of int64 in C++"},
     {"c_arr_f8", (PyCFunction)cpp2np_c_arr_f8, METH_VARARGS | METH_KEYWORDS, "Creates test array of doubles in C++"},
     {"c_arr_pixel", (PyCFunction)cpp2np_c_arr_pixel, METH_VARARGS | METH_KEYWORDS, "Creates array of pixels for demo script"},
-    {"print_arr", (PyCFunction)cpp2np_print_arr, METH_VARARGS | METH_KEYWORDS, "Writes the content of the demo matrix to standard output"},
+    {"print_arr", (PyCFunction)cpp2np_print_arr, METH_VARARGS | METH_KEYWORDS, "Prints an 8x8 matrix of int16 to standard output"},
     {"wrap", (PyCFunction)cpp2np_wrap, METH_VARARGS | METH_KEYWORDS, "Creates numpy array from pointer"},
     {"descr", (PyCFunction)cpp2np_descr, METH_VARARGS | METH_KEYWORDS, "Returns a dict describing the data the numpy array"},
     {"free", (PyCFunction)cpp2np_free, METH_VARARGS | METH_KEYWORDS, "Frees the memory the pointer is referencing"},

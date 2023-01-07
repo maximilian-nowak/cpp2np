@@ -42,7 +42,7 @@ Dazu führt man folgenden Befehl im Root-Verzeichnis des Projektes aus:
 
     echo export LD_LIBRARY_PATH=$(pwd)/build/lib.linux-x86_64-cpython-310 >> ~/.bashrc
 
-## Demo
+## Demo 1: Python(C++)
 
 ### Import module
 
@@ -143,6 +143,60 @@ WRITEBACKIFCOPY : False
 
 We observe that the numpy array is pointing nowhere as the original buffer was freed on the c++ side.
 
-## Demo2
+## Demo 2
 
 Apart from the source module in `demo2.py` there's a html file and jupyter notebook in the docs directory containing sample outputs of the script: *docs/demo2.html*.
+
+## Demo 3: C++(Python)
+
+Demonstrates the usage of cpp2np in the other direction. Allocating memory in numpy and using it in C++.
+
+### Create new numpy:
+
+```python
+>>> new_arr = np.ones((8,8), dtype="int16")
+```
+
+### Retrieve pointer
+
+```python
+>>> new_arr_ptr = c2n.descr(new_arr)['data']
+>>> print("pointer in python: " + str(new_arr_ptr))
+
+pointer in python: 37148928
+```
+
+### Print Numpy array in C++:
+
+```python
+>>> print("\nprint in c++:")
+>>> c2n.print_arr(new_arr_ptr)
+
+[   1    1    1    1    1    1    1    1]
+[   1    1    1    1    1    1    1    1]
+[   1    1    1    1    1    1    1    1]
+[   1    1    1    1    1    1    1    1]
+[   1    1    1    1    1    1    1    1]
+[   1    1    1    1    1    1    1    1]
+[   1    1    1    1    1    1    1    1]
+[   1    1    1    1    1    1    1    1]
+```
+
+The *print_arr* method also leaves its mark by changing the first value to `255`.
+
+### Verify change of value in Python
+
+```python
+>>> print(new_arr)
+
+[[255   1   1   1   1   1   1   1]
+ [  1   1   1   1   1   1   1   1]
+ [  1   1   1   1   1   1   1   1]
+ [  1   1   1   1   1   1   1   1]
+ [  1   1   1   1   1   1   1   1]
+ [  1   1   1   1   1   1   1   1]
+ [  1   1   1   1   1   1   1   1]
+ [  1   1   1   1   1   1   1   1]]
+ ```
+
+ As we see, the memory of the numpy area can be used in C++ and is writable, too.

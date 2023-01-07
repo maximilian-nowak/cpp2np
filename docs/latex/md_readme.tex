@@ -35,7 +35,7 @@ Falls die Installation nicht klappt, könnte eine Lösung sein, die .so Datei ma
 
 Dazu führt man folgenden Befehl im Root-\/\+Verzeichnis des Projektes aus\+: \begin{DoxyVerb}echo export LD_LIBRARY_PATH=$(pwd)/build/lib.linux-x86_64-cpython-310 >> ~/.bashrc
 \end{DoxyVerb}
-\hypertarget{md_readme_autotoc_md4}{}\doxysection{Demo}\label{md_readme_autotoc_md4}
+\hypertarget{md_readme_autotoc_md4}{}\doxysection{Demo 1\+: Python(\+C++)}\label{md_readme_autotoc_md4}
 \hypertarget{md_readme_autotoc_md5}{}\doxysubsection{Import module}\label{md_readme_autotoc_md5}
 
 \begin{DoxyCode}{0}
@@ -124,5 +124,52 @@ Dazu führt man folgenden Befehl im Root-\/\+Verzeichnis des Projektes aus\+: \b
 \end{DoxyCode}
 
 
-We observe that the numpy array is pointing nowhere as the original buffer was freed on the c++ side.\hypertarget{md_readme_autotoc_md14}{}\doxysubsection{Demo2}\label{md_readme_autotoc_md14}
-Apart from the source module in {\ttfamily demo2.\+py} there\textquotesingle{}s a html file in the docs directory which includes sample outputs of the script\+: {\itshape docs/demo2.\+html}. 
+We observe that the numpy array is pointing nowhere as the original buffer was freed on the c++ side.\hypertarget{md_readme_autotoc_md14}{}\doxysection{Demo 2}\label{md_readme_autotoc_md14}
+Apart from the source module in {\ttfamily demo2.\+py} there\textquotesingle{}s a html file and jupyter notebook in the docs directory containing sample outputs of the script\+: {\itshape docs/demo2.\+html}.\hypertarget{md_readme_autotoc_md15}{}\doxysection{Demo 3\+: C++(\+Python)}\label{md_readme_autotoc_md15}
+Demonstrates the usage of cpp2np in the other direction. Allocating memory in numpy and using it in C++.\hypertarget{md_readme_autotoc_md16}{}\doxysubsection{Create new numpy\+:}\label{md_readme_autotoc_md16}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{>>> new\_arr = np.ones((8,8), dtype="int16")}
+\end{DoxyCode}
+\hypertarget{md_readme_autotoc_md17}{}\doxysubsection{Retrieve pointer}\label{md_readme_autotoc_md17}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{>>> new\_arr\_ptr = c2n.descr(new\_arr)['data']}
+\DoxyCodeLine{>>> print("pointer in python: " + str(new\_arr\_ptr))}
+\DoxyCodeLine{}
+\DoxyCodeLine{pointer in python: 37148928}
+\end{DoxyCode}
+\hypertarget{md_readme_autotoc_md18}{}\doxysubsection{Print Numpy array in C++\+:}\label{md_readme_autotoc_md18}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{>>> print("\(\backslash\)nprint in c++:")}
+\DoxyCodeLine{>>> c2n.print\_arr(new\_arr\_ptr)}
+\DoxyCodeLine{}
+\DoxyCodeLine{[   1    1    1    1    1    1    1    1]}
+\DoxyCodeLine{[   1    1    1    1    1    1    1    1]}
+\DoxyCodeLine{[   1    1    1    1    1    1    1    1]}
+\DoxyCodeLine{[   1    1    1    1    1    1    1    1]}
+\DoxyCodeLine{[   1    1    1    1    1    1    1    1]}
+\DoxyCodeLine{[   1    1    1    1    1    1    1    1]}
+\DoxyCodeLine{[   1    1    1    1    1    1    1    1]}
+\DoxyCodeLine{[   1    1    1    1    1    1    1    1]}
+\end{DoxyCode}
+
+
+The {\itshape print\+\_\+arr} method also leaves its mark by changing the first value to {\ttfamily 255}.\hypertarget{md_readme_autotoc_md19}{}\doxysubsection{Verify change of value in Python}\label{md_readme_autotoc_md19}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{>>> print(new\_arr)}
+\DoxyCodeLine{}
+\DoxyCodeLine{[[255   1   1   1   1   1   1   1]}
+\DoxyCodeLine{ [  1   1   1   1   1   1   1   1]}
+\DoxyCodeLine{ [  1   1   1   1   1   1   1   1]}
+\DoxyCodeLine{ [  1   1   1   1   1   1   1   1]}
+\DoxyCodeLine{ [  1   1   1   1   1   1   1   1]}
+\DoxyCodeLine{ [  1   1   1   1   1   1   1   1]}
+\DoxyCodeLine{ [  1   1   1   1   1   1   1   1]}
+\DoxyCodeLine{ [  1   1   1   1   1   1   1   1]]}
+\end{DoxyCode}
+
+
+As we see, the memory of the numpy area can be used in C++ and is writable, too. 

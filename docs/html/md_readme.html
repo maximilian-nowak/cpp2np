@@ -92,7 +92,7 @@ Problem mit setup.py</h1>
 <p>Falls die Installation nicht klappt, könnte eine Lösung sein, die .so Datei manuell zum Pfad der dynamic linked libraries hinzuzufügen.</p>
 <p>Dazu führt man folgenden Befehl im Root-Verzeichnis des Projektes aus: </p><pre class="fragment">echo export LD_LIBRARY_PATH=$(pwd)/build/lib.linux-x86_64-cpython-310 &gt;&gt; ~/.bashrc
 </pre><h1><a class="anchor" id="autotoc_md4"></a>
-Demo</h1>
+Demo 1: Python(C++)</h1>
 <h2><a class="anchor" id="autotoc_md5"></a>
 Import module</h2>
 <div class="fragment"><div class="line">import cpp2np as c2n</div>
@@ -161,9 +161,48 @@ Free the memory of the c++ array explicitly</h2>
 <div class="line">[[24407120        0]</div>
 <div class="line">[19943440        0]]</div>
 </div><!-- fragment --><p>We observe that the numpy array is pointing nowhere as the original buffer was freed on the c++ side.</p>
-<h2><a class="anchor" id="autotoc_md14"></a>
-Demo2</h2>
-<p>Apart from the source module in <code>demo2.py</code> there's a html file in the docs directory which includes sample outputs of the script: <em>docs/demo2.html</em>. </p>
+<h1><a class="anchor" id="autotoc_md14"></a>
+Demo 2</h1>
+<p>Apart from the source module in <code>demo2.py</code> there's a html file and jupyter notebook in the docs directory containing sample outputs of the script: <em>docs/demo2.html</em>.</p>
+<h1><a class="anchor" id="autotoc_md15"></a>
+Demo 3: C++(Python)</h1>
+<p>Demonstrates the usage of cpp2np in the other direction. Allocating memory in numpy and using it in C++.</p>
+<h2><a class="anchor" id="autotoc_md16"></a>
+Create new numpy:</h2>
+<div class="fragment"><div class="line">&gt;&gt;&gt; new_arr = np.ones((8,8), dtype=&quot;int16&quot;)</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md17"></a>
+Retrieve pointer</h2>
+<div class="fragment"><div class="line">&gt;&gt;&gt; new_arr_ptr = c2n.descr(new_arr)[&#39;data&#39;]</div>
+<div class="line">&gt;&gt;&gt; print(&quot;pointer in python: &quot; + str(new_arr_ptr))</div>
+<div class="line"> </div>
+<div class="line">pointer in python: 37148928</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md18"></a>
+Print Numpy array in C++:</h2>
+<div class="fragment"><div class="line">&gt;&gt;&gt; print(&quot;\nprint in c++:&quot;)</div>
+<div class="line">&gt;&gt;&gt; c2n.print_arr(new_arr_ptr)</div>
+<div class="line"> </div>
+<div class="line">[   1    1    1    1    1    1    1    1]</div>
+<div class="line">[   1    1    1    1    1    1    1    1]</div>
+<div class="line">[   1    1    1    1    1    1    1    1]</div>
+<div class="line">[   1    1    1    1    1    1    1    1]</div>
+<div class="line">[   1    1    1    1    1    1    1    1]</div>
+<div class="line">[   1    1    1    1    1    1    1    1]</div>
+<div class="line">[   1    1    1    1    1    1    1    1]</div>
+<div class="line">[   1    1    1    1    1    1    1    1]</div>
+</div><!-- fragment --><p>The <em>print_arr</em> method also leaves its mark by changing the first value to <code>255</code>.</p>
+<h2><a class="anchor" id="autotoc_md19"></a>
+Verify change of value in Python</h2>
+<div class="fragment"><div class="line">&gt;&gt;&gt; print(new_arr)</div>
+<div class="line"> </div>
+<div class="line">[[255   1   1   1   1   1   1   1]</div>
+<div class="line"> [  1   1   1   1   1   1   1   1]</div>
+<div class="line"> [  1   1   1   1   1   1   1   1]</div>
+<div class="line"> [  1   1   1   1   1   1   1   1]</div>
+<div class="line"> [  1   1   1   1   1   1   1   1]</div>
+<div class="line"> [  1   1   1   1   1   1   1   1]</div>
+<div class="line"> [  1   1   1   1   1   1   1   1]</div>
+<div class="line"> [  1   1   1   1   1   1   1   1]]</div>
+</div><!-- fragment --><p>As we see, the memory of the numpy area can be used in C++ and is writable, too. </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 <!-- start footer part -->

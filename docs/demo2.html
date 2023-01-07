@@ -14645,7 +14645,8 @@ IPython 8.7.0 -- An enhanced Interactive Python. Type '?' for help.</p>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">1) Read in pixel from the cpp2np module. The original array is 8x8 array of int16_t:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="n">ptr</span><span class="p">,</span> <span class="n">shape</span> <span class="o">=</span> <span class="n">c2n</span><span class="o">.</span><span class="n">c_arr_pixel</span><span class="p">()</span>
 <span class="n">pixel</span> <span class="o">=</span> <span class="n">c2n</span><span class="o">.</span><span class="n">wrap</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s1">&#39;int16&#39;</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Pixel matrix (int16):&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Pixel array (int16):&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">pixel</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">c2n</span><span class="o">.</span><span class="n">descr</span><span class="p">(</span><span class="n">pixel</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">pixel</span><span class="o">.</span><span class="n">flags</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">pixel</span><span class="p">)</span>
@@ -14663,25 +14664,24 @@ IPython 8.7.0 -- An enhanced Interactive Python. Type '?' for help.</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">3) Cosine transformation:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="c1"># apply cosine transformation for compression</span>
 <span class="n">A</span> <span class="o">=</span> <span class="n">quant1</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="n">img_compressed</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">fromarray</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;uint8&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="s1">&#39;LA&#39;</span><span class="p">)</span>
 
-
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">3) Cosine transformation:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img_compressed</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
-
+<span class="c1"># assign changes back to original memory area in c++</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">4) Transform working copy back to int16 and assign changes to original memory area:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
 <span class="n">np</span><span class="o">.</span><span class="n">place</span><span class="p">(</span><span class="n">pixel</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="p">),</span> <span class="n">A</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int16&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;pixel matrix after (int16):&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">c2n</span><span class="o">.</span><span class="n">descr</span><span class="p">(</span><span class="n">pixel</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;pixel matrix (int16):&#39;</span><span class="p">)</span>
 <span class="n">c2n</span><span class="o">.</span><span class="n">print_arr</span><span class="p">(</span><span class="n">ptr</span><span class="p">)</span>
 
+<span class="c1"># free memory</span>
 <span class="n">res</span> <span class="o">=</span> <span class="n">c2n</span><span class="o">.</span><span class="n">free</span><span class="p">(</span><span class="n">ptr</span><span class="p">)</span>
 </pre></div>
 
@@ -14711,8 +14711,9 @@ as the original.
 
 1) Read in pixel from the cpp2np module. The original array is 8x8 array of int16_t:
 
-Pixel matrix (int16):
-{&#39;data&#39;: 42421520, &#39;ndim&#39;: 2, &#39;shape&#39;: (8, 8), &#39;typestr&#39;: &#39;&lt;i2&#39;}
+Pixel array (int16):
+&lt;class &#39;numpy.ndarray&#39;&gt;
+{&#39;data&#39;: 36825424, &#39;ndim&#39;: 2, &#39;shape&#39;: (8, 8), &#39;typestr&#39;: &#39;&lt;i2&#39;}
   C_CONTIGUOUS : True
   F_CONTIGUOUS : False
   OWNDATA : False
@@ -14732,7 +14733,7 @@ Pixel matrix (int16):
 2) We create a working copy A and transform it to unsigned int8:
 
 A (uint8):
-{&#39;data&#39;: 50425120, &#39;ndim&#39;: 2, &#39;shape&#39;: (8, 8), &#39;typestr&#39;: &#39;&lt;i2&#39;}
+{&#39;data&#39;: 43837792, &#39;ndim&#39;: 2, &#39;shape&#39;: (8, 8), &#39;typestr&#39;: &#39;&lt;i2&#39;}
 [[237  40  48  54  42  31   6  17]
  [ 38  40  36  33  37  43  31  13]
  [ 18 245 251 249 246  17  34  16]
@@ -14741,6 +14742,7 @@ A (uint8):
  [222 198  25  79 142 157 249  22]
  [239 148 127 146 127 157   4   7]
  [ 35   1 210 194 196 234  11  31]]
+Created pixel matrix with pointer: 36825424
 </pre>
 </div>
 </div>
@@ -14813,8 +14815,8 @@ class="
 
 4) Transform working copy back to int16 and assign changes to original memory area:
 
-pixel matrix after (int16):
-{&#39;data&#39;: 42421520, &#39;ndim&#39;: 2, &#39;shape&#39;: (8, 8), &#39;typestr&#39;: &#39;&lt;i2&#39;}
+pixel matrix (int16):
+pointer address: 36825424
 [ 219   62   34   51   41   26   -9    2]
 [  41   35   35   32   54   62   24    4]
 [  39  250  220  288  208    1   58   24]
