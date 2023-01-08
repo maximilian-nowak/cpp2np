@@ -171,6 +171,7 @@ pointer in python: 37148928
 ```python
 >>> c2n.print_arr(new_arr_ptr)
 
+pointer address: 37148928
 [   1    1    1    1    1    1    1    1]
 [   1    1    1    1    1    1    1    1]
 [   1    1    1    1    1    1    1    1]
@@ -188,7 +189,6 @@ The *print_arr* method also leaves its mark by changing the first value to `255`
 ```python
 >>> print(new_arr)
 
-pointer address: 37148928
 [[255   1   1   1   1   1   1   1]
  [  1   1   1   1   1   1   1   1]
  [  1   1   1   1   1   1   1   1]
