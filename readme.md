@@ -169,7 +169,6 @@ pointer in python: 37148928
 ### Print Numpy array in C++:
 
 ```python
->>> print("\nprint in c++:")
 >>> c2n.print_arr(new_arr_ptr)
 
 [   1    1    1    1    1    1    1    1]
@@ -189,6 +188,7 @@ The *print_arr* method also leaves its mark by changing the first value to `255`
 ```python
 >>> print(new_arr)
 
+pointer address: 37148928
 [[255   1   1   1   1   1   1   1]
  [  1   1   1   1   1   1   1   1]
  [  1   1   1   1   1   1   1   1]
