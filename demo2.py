@@ -4,13 +4,6 @@ import matplotlib.pyplot as plt
 import scipy.fftpack as sfft
 import cpp2np as c2n
 
-def to_uint8(A):
-    A_uint8 = A.astype('int16')  # same size as int16 but unsigned
-    for i in range(len(A)):
-        for j in range(len(A)):
-            if A_uint8[i,j] < 0:
-                A_uint8[i, j] += 255
-    return A_uint8
                 
 def quant1(V8,p):
     V8 = V8.astype('int16') - 128
