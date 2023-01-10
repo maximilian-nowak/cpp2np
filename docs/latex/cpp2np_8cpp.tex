@@ -37,16 +37,17 @@ static Py\+Object $\ast$ \mbox{\hyperlink{cpp2np_8cpp_a8b1ee65b6b9f8a5e3cf2a49bf
 \item 
 static Py\+Object $\ast$ \mbox{\hyperlink{cpp2np_8cpp_a9eb9de49fffad1ff7da918399220dafb}{cpp2np\+\_\+free}} (Py\+Object $\ast$self, Py\+Object $\ast$args, Py\+Object $\ast$kwargs)
 \item 
+static Py\+Object $\ast$ \mbox{\hyperlink{cpp2np_8cpp_a116ef0d3a964068a358e63860c0a4380}{cpp2np\+\_\+py\+\_\+free}} (Py\+Object $\ast$self, Py\+Object $\ast$args, Py\+Object $\ast$kwargs)
+\item 
 static Py\+Object $\ast$ \mbox{\hyperlink{cpp2np_8cpp_a7d3e5c23d89290c09a8e5bdf680b3033}{cpp2np\+\_\+c\+\_\+arr\+\_\+i4}} (Py\+Object $\ast$self, Py\+Object $\ast$args)
 \begin{DoxyCompactList}\small\item\em allocates a c++ array of 32 bit integer. \end{DoxyCompactList}\item 
-static Py\+Object $\ast$ \mbox{\hyperlink{cpp2np_8cpp_a4239734cef98aa295c18030f01873c89}{cpp2np\+\_\+c\+\_\+arr\+\_\+i8}} (Py\+Object $\ast$self, Py\+Object $\ast$args)
-\begin{DoxyCompactList}\small\item\em allocates a c++ array of 64 bit integer. \end{DoxyCompactList}\item 
-static Py\+Object $\ast$ \mbox{\hyperlink{cpp2np_8cpp_a136ae531b21865b88e0f33b92d16236e}{cpp2np\+\_\+c\+\_\+arr\+\_\+f8}} (Py\+Object $\ast$self, Py\+Object $\ast$args)
-\begin{DoxyCompactList}\small\item\em allocates a c++ array of doubles. \end{DoxyCompactList}\item 
 static Py\+Object $\ast$ \mbox{\hyperlink{cpp2np_8cpp_a9a339ae37b25d9fafa2cc01fa3253d9a}{cpp2np\+\_\+c\+\_\+arr\+\_\+pixel}} (Py\+Object $\ast$self, Py\+Object $\ast$args)
 \begin{DoxyCompactList}\small\item\em Returns a 8x8 pixel matrix used in the demo script. \end{DoxyCompactList}\item 
-static Py\+Object $\ast$ \mbox{\hyperlink{cpp2np_8cpp_a3e93ff9242039f9f9bee3f866e8bc17b}{cpp2np\+\_\+print\+\_\+arr}} (Py\+Object $\ast$self, Py\+Object $\ast$args, Py\+Object $\ast$kwargs)
+static Py\+Object $\ast$ \mbox{\hyperlink{cpp2np_8cpp_ac9b906d1ee3085d634b4b8009169ef1d}{cpp2np\+\_\+print\+\_\+testarr}} (Py\+Object $\ast$self, Py\+Object $\ast$args, Py\+Object $\ast$kwargs)
 \begin{DoxyCompactList}\small\item\em Prints an 8x8 matrix of int16 to standard output. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{cpp2np_8cpp_ae88dc19a13fb049ff854ed1e5e6ce723}\label{cpp2np_8cpp_ae88dc19a13fb049ff854ed1e5e6ce723}} 
+static Py\+Object $\ast$ {\bfseries cpp2np\+\_\+owndata} (Py\+Object $\ast$self, Py\+Object $\ast$args, Py\+Object $\ast$kwargs)
+\item 
 \mbox{\Hypertarget{cpp2np_8cpp_a31ee1ca4ddd6e382c1828c19560d8ed0}\label{cpp2np_8cpp_a31ee1ca4ddd6e382c1828c19560d8ed0}} 
 Py\+M\+O\+D\+I\+N\+I\+T\+\_\+\+F\+U\+NC {\bfseries Py\+Init\+\_\+cpp2np} (void)
 \end{DoxyCompactItemize}
@@ -62,20 +63,6 @@ static struct Py\+Module\+Def {\bfseries cpp2npmodule}
 
 
 \doxysubsection{Function Documentation}
-\mbox{\Hypertarget{cpp2np_8cpp_a136ae531b21865b88e0f33b92d16236e}\label{cpp2np_8cpp_a136ae531b21865b88e0f33b92d16236e}} 
-\index{cpp2np.cpp@{cpp2np.cpp}!cpp2np\_c\_arr\_f8@{cpp2np\_c\_arr\_f8}}
-\index{cpp2np\_c\_arr\_f8@{cpp2np\_c\_arr\_f8}!cpp2np.cpp@{cpp2np.cpp}}
-\doxysubsubsection{\texorpdfstring{cpp2np\_c\_arr\_f8()}{cpp2np\_c\_arr\_f8()}}
-{\footnotesize\ttfamily static Py\+Object$\ast$ cpp2np\+\_\+c\+\_\+arr\+\_\+f8 (\begin{DoxyParamCaption}\item[{Py\+Object $\ast$}]{self,  }\item[{Py\+Object $\ast$}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
-
-
-
-allocates a c++ array of doubles. 
-
-\begin{DoxyReturn}{Returns}
-pointer and shape ~\newline
- 
-\end{DoxyReturn}
 \mbox{\Hypertarget{cpp2np_8cpp_a7d3e5c23d89290c09a8e5bdf680b3033}\label{cpp2np_8cpp_a7d3e5c23d89290c09a8e5bdf680b3033}} 
 \index{cpp2np.cpp@{cpp2np.cpp}!cpp2np\_c\_arr\_i4@{cpp2np\_c\_arr\_i4}}
 \index{cpp2np\_c\_arr\_i4@{cpp2np\_c\_arr\_i4}!cpp2np.cpp@{cpp2np.cpp}}
@@ -88,20 +75,6 @@ allocates a c++ array of 32 bit integer.
 
 \begin{DoxyReturn}{Returns}
 pointer and shape 
-\end{DoxyReturn}
-\mbox{\Hypertarget{cpp2np_8cpp_a4239734cef98aa295c18030f01873c89}\label{cpp2np_8cpp_a4239734cef98aa295c18030f01873c89}} 
-\index{cpp2np.cpp@{cpp2np.cpp}!cpp2np\_c\_arr\_i8@{cpp2np\_c\_arr\_i8}}
-\index{cpp2np\_c\_arr\_i8@{cpp2np\_c\_arr\_i8}!cpp2np.cpp@{cpp2np.cpp}}
-\doxysubsubsection{\texorpdfstring{cpp2np\_c\_arr\_i8()}{cpp2np\_c\_arr\_i8()}}
-{\footnotesize\ttfamily static Py\+Object$\ast$ cpp2np\+\_\+c\+\_\+arr\+\_\+i8 (\begin{DoxyParamCaption}\item[{Py\+Object $\ast$}]{self,  }\item[{Py\+Object $\ast$}]{args }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
-
-
-
-allocates a c++ array of 64 bit integer. 
-
-\begin{DoxyReturn}{Returns}
-pointer and shape ~\newline
- 
 \end{DoxyReturn}
 \mbox{\Hypertarget{cpp2np_8cpp_a9a339ae37b25d9fafa2cc01fa3253d9a}\label{cpp2np_8cpp_a9a339ae37b25d9fafa2cc01fa3253d9a}} 
 \index{cpp2np.cpp@{cpp2np.cpp}!cpp2np\_c\_arr\_pixel@{cpp2np\_c\_arr\_pixel}}
@@ -143,11 +116,11 @@ Frees the memory to a given pointer
 \begin{DoxyReturn}{Returns}
 True if successful, otherwise False 
 \end{DoxyReturn}
-\mbox{\Hypertarget{cpp2np_8cpp_a3e93ff9242039f9f9bee3f866e8bc17b}\label{cpp2np_8cpp_a3e93ff9242039f9f9bee3f866e8bc17b}} 
-\index{cpp2np.cpp@{cpp2np.cpp}!cpp2np\_print\_arr@{cpp2np\_print\_arr}}
-\index{cpp2np\_print\_arr@{cpp2np\_print\_arr}!cpp2np.cpp@{cpp2np.cpp}}
-\doxysubsubsection{\texorpdfstring{cpp2np\_print\_arr()}{cpp2np\_print\_arr()}}
-{\footnotesize\ttfamily static Py\+Object$\ast$ cpp2np\+\_\+print\+\_\+arr (\begin{DoxyParamCaption}\item[{Py\+Object $\ast$}]{self,  }\item[{Py\+Object $\ast$}]{args,  }\item[{Py\+Object $\ast$}]{kwargs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+\mbox{\Hypertarget{cpp2np_8cpp_ac9b906d1ee3085d634b4b8009169ef1d}\label{cpp2np_8cpp_ac9b906d1ee3085d634b4b8009169ef1d}} 
+\index{cpp2np.cpp@{cpp2np.cpp}!cpp2np\_print\_testarr@{cpp2np\_print\_testarr}}
+\index{cpp2np\_print\_testarr@{cpp2np\_print\_testarr}!cpp2np.cpp@{cpp2np.cpp}}
+\doxysubsubsection{\texorpdfstring{cpp2np\_print\_testarr()}{cpp2np\_print\_testarr()}}
+{\footnotesize\ttfamily static Py\+Object$\ast$ cpp2np\+\_\+print\+\_\+testarr (\begin{DoxyParamCaption}\item[{Py\+Object $\ast$}]{self,  }\item[{Py\+Object $\ast$}]{args,  }\item[{Py\+Object $\ast$}]{kwargs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
 
 
@@ -155,6 +128,22 @@ Prints an 8x8 matrix of int16 to standard output.
 
 \begin{DoxyReturn}{Returns}
 True if successful 
+\end{DoxyReturn}
+\mbox{\Hypertarget{cpp2np_8cpp_a116ef0d3a964068a358e63860c0a4380}\label{cpp2np_8cpp_a116ef0d3a964068a358e63860c0a4380}} 
+\index{cpp2np.cpp@{cpp2np.cpp}!cpp2np\_py\_free@{cpp2np\_py\_free}}
+\index{cpp2np\_py\_free@{cpp2np\_py\_free}!cpp2np.cpp@{cpp2np.cpp}}
+\doxysubsubsection{\texorpdfstring{cpp2np\_py\_free()}{cpp2np\_py\_free()}}
+{\footnotesize\ttfamily static Py\+Object$\ast$ cpp2np\+\_\+py\+\_\+free (\begin{DoxyParamCaption}\item[{Py\+Object $\ast$}]{self,  }\item[{Py\+Object $\ast$}]{args,  }\item[{Py\+Object $\ast$}]{kwargs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Frees memory allocated by Python
+
+
+\begin{DoxyParams}{Parameters}
+{\em pointer} & The pointer as long int value \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if successful, otherwise False 
 \end{DoxyReturn}
 \mbox{\Hypertarget{cpp2np_8cpp_ad516189b4963ba92b3b33f3f6eb0248b}\label{cpp2np_8cpp_ad516189b4963ba92b3b33f3f6eb0248b}} 
 \index{cpp2np.cpp@{cpp2np.cpp}!cpp2np\_wrap@{cpp2np\_wrap}}
@@ -209,13 +198,13 @@ stores docstring information of the module
 \DoxyCodeLine{= \{}
 \DoxyCodeLine{    \{\textcolor{stringliteral}{"hello"}, (PyCFunction)hello, METH\_VARARGS, \textcolor{stringliteral}{"Hello World"}\},}
 \DoxyCodeLine{    \{\textcolor{stringliteral}{"c\_arr\_i4"}, (PyCFunction)\mbox{\hyperlink{cpp2np_8cpp_a7d3e5c23d89290c09a8e5bdf680b3033}{cpp2np\_c\_arr\_i4}}, METH\_VARARGS | METH\_KEYWORDS, \textcolor{stringliteral}{"Creates test array of int32 in C++"}\},}
-\DoxyCodeLine{    \{\textcolor{stringliteral}{"c\_arr\_i8"}, (PyCFunction)\mbox{\hyperlink{cpp2np_8cpp_a4239734cef98aa295c18030f01873c89}{cpp2np\_c\_arr\_i8}}, METH\_VARARGS | METH\_KEYWORDS, \textcolor{stringliteral}{"Creates test array of int64 in C++"}\},}
-\DoxyCodeLine{    \{\textcolor{stringliteral}{"c\_arr\_f8"}, (PyCFunction)\mbox{\hyperlink{cpp2np_8cpp_a136ae531b21865b88e0f33b92d16236e}{cpp2np\_c\_arr\_f8}}, METH\_VARARGS | METH\_KEYWORDS, \textcolor{stringliteral}{"Creates test array of doubles in C++"}\},}
 \DoxyCodeLine{    \{\textcolor{stringliteral}{"c\_arr\_pixel"}, (PyCFunction)\mbox{\hyperlink{cpp2np_8cpp_a9a339ae37b25d9fafa2cc01fa3253d9a}{cpp2np\_c\_arr\_pixel}}, METH\_VARARGS | METH\_KEYWORDS, \textcolor{stringliteral}{"Creates array of pixels for demo script"}\},}
-\DoxyCodeLine{    \{\textcolor{stringliteral}{"print\_arr"}, (PyCFunction)\mbox{\hyperlink{cpp2np_8cpp_a3e93ff9242039f9f9bee3f866e8bc17b}{cpp2np\_print\_arr}}, METH\_VARARGS | METH\_KEYWORDS, \textcolor{stringliteral}{"Prints an 8x8 matrix of int16 to standard output"}\},}
+\DoxyCodeLine{    \{\textcolor{stringliteral}{"print\_testarr"}, (PyCFunction)\mbox{\hyperlink{cpp2np_8cpp_ac9b906d1ee3085d634b4b8009169ef1d}{cpp2np\_print\_testarr}}, METH\_VARARGS | METH\_KEYWORDS, \textcolor{stringliteral}{"Prints an 8x8 matrix of uint8 to standard output"}\},}
 \DoxyCodeLine{    \{\textcolor{stringliteral}{"wrap"}, (PyCFunction)\mbox{\hyperlink{cpp2np_8cpp_ad516189b4963ba92b3b33f3f6eb0248b}{cpp2np\_wrap}}, METH\_VARARGS | METH\_KEYWORDS, \textcolor{stringliteral}{"Creates numpy array from pointer"}\},}
 \DoxyCodeLine{    \{\textcolor{stringliteral}{"descr"}, (PyCFunction)\mbox{\hyperlink{cpp2np_8cpp_a8b1ee65b6b9f8a5e3cf2a49bffe80310}{cpp2np\_descr}}, METH\_VARARGS | METH\_KEYWORDS, \textcolor{stringliteral}{"Returns a dict describing the data the numpy array"}\},}
 \DoxyCodeLine{    \{\textcolor{stringliteral}{"free"}, (PyCFunction)\mbox{\hyperlink{cpp2np_8cpp_a9eb9de49fffad1ff7da918399220dafb}{cpp2np\_free}}, METH\_VARARGS | METH\_KEYWORDS, \textcolor{stringliteral}{"Frees the memory the pointer is referencing"}\},}
+\DoxyCodeLine{    \{\textcolor{stringliteral}{"py\_free"}, (PyCFunction)\mbox{\hyperlink{cpp2np_8cpp_a116ef0d3a964068a358e63860c0a4380}{cpp2np\_py\_free}}, METH\_VARARGS | METH\_KEYWORDS, \textcolor{stringliteral}{"Frees the memory the pointer is referencing"}\},}
+\DoxyCodeLine{    \{\textcolor{stringliteral}{"owndata"}, (PyCFunction)cpp2np\_owndata, METH\_VARARGS | METH\_KEYWORDS, \textcolor{stringliteral}{"sets or unset the owndata flag on a numpy array"}\},}
 \DoxyCodeLine{    \{\textcolor{keyword}{nullptr}, \textcolor{keyword}{nullptr}, 0, \textcolor{keyword}{nullptr}\}}
 \DoxyCodeLine{\}}
 

@@ -47,7 +47,7 @@ static PyObject* cpp2np_wrap(PyObject* self, PyObject* args, PyObject* kwargs){
     
     std::string keys[] = {"input", "shape", "dtype", "free_mem_on_del"};
     static char* kwlist[] = {keys[0].data(), keys[1].data(), keys[2].data(), keys[3].data(), NULL};
-    if(!PyArg_ParseTupleAndKeywords(args, kwargs, "lO|Oi", kwlist, &ptr, &in_shape, &dtype, &free_mem_on_del)){
+    if(!PyArg_ParseTupleAndKeywords(args, kwargs, "lO|Op", kwlist, &ptr, &in_shape, &dtype, &free_mem_on_del)){
         PyErr_BadArgument();
         return NULL;
     }
@@ -175,13 +175,34 @@ static PyObject* cpp2np_free(PyObject* self, PyObject* args, PyObject* kwargs){
     static char* kwlist[] = {keys[0].data(), NULL};
     if(!PyArg_ParseTupleAndKeywords(args, kwargs, "l", kwlist, &ptr)){
         PyErr_BadArgument();
-        return Py_False;
+        Py_RETURN_NONE;  // return Py_newRef(Py_None)
     }
 
     void* buf = (void*) ptr;
     free(buf);
     
-    return Py_True;
+    Py_RETURN_NONE;  // return Py_newRef(Py_None)
+};
+
+
+/** Frees memory allocated by Python
+ * 
+ *  \param pointer The pointer as long int value
+ *  \return True if successful, otherwise False
+ */
+static PyObject* cpp2np_py_free(PyObject* self, PyObject* args, PyObject* kwargs){
+    npy_intp ptr;
+    std::string keys[] = {"pointer"};
+    static char* kwlist[] = {keys[0].data(), NULL};
+    if(!PyArg_ParseTupleAndKeywords(args, kwargs, "l", kwlist, &ptr)){
+        PyErr_BadArgument();
+        Py_RETURN_NONE;  // return Py_newRef(Py_None)
+    }
+
+    void* buf = (void*) ptr;
+    PyMem_RawFree(buf);
+    
+    Py_RETURN_NONE;  // return Py_newRef(Py_None)
 };
 
 /// allocates a c++ array of 32 bit integer. \returns pointer and shape
@@ -194,38 +215,18 @@ static PyObject* cpp2np_c_arr_i4(PyObject* self, PyObject* args){
     return ret;
 };
 
-/// allocates a c++ array of 64 bit integer. \returns pointer and shape  
-static PyObject* cpp2np_c_arr_i8(PyObject* self, PyObject* args){
-    auto* data = new std::array<std::array<long int, 2>, 2>({{{1,2},{3,4}}});
-    npy_intp ptr = (npy_intp) data;
-    PyObject* ret = PyTuple_New(2);
-    PyTuple_SET_ITEM(ret, 0, PyLong_FromLong(ptr));
-    PyTuple_SET_ITEM(ret, 1, Py_BuildValue("(ii)", 2, 2));
-    return ret;
-};
-
-/// allocates a c++ array of doubles. \returns pointer and shape  
-static PyObject* cpp2np_c_arr_f8(PyObject* self, PyObject* args){
-    auto* data = new std::array<std::array<double, 2>, 2>({{{1.0, 2.0},{3.0, 4.0}}});
-    npy_intp ptr = (npy_intp) data;
-    PyObject* ret = PyTuple_New(2);
-    PyTuple_SET_ITEM(ret, 0, PyLong_FromLong(ptr));
-    PyTuple_SET_ITEM(ret, 1, Py_BuildValue("(ii)", 2, 2));
-    return ret;
-};
-
 /// Returns a 8x8 pixel matrix used in the demo script \returns pointer and shape
 static PyObject* cpp2np_c_arr_pixel(PyObject* self, PyObject* args){
     constexpr int size = 8;
-    auto* data = new std::array<std::array<int16_t , size>, size>(
-        {{{-18, 40, 48, 54, 42, 31, 6, 17},
+    auto* data = new std::array<std::array<uint8_t , size>, size>(
+        {{{237, 40, 48, 54, 42, 31, 6, 17},
          {38, 40, 36, 33, 37, 43, 31, 13},
-         {18, -10,-4, -6, -9, 17, 34, 16},
-         {-26, -94, -106, -103, -90, -17, 18, 31},
-         {-21, -79, 2, 31, -126, -99, -11, 36},
-         {-33, -57, 25, 79, -113, -98, -6, 22},
-         {-16, -107, -128, -109, -128, -98, 4, 7},
-         {35, 1, -45, -61, -59, -21, 11, 31}}}
+         {18, 245, 251, 249, 246, 17, 34, 16},
+         {229, 161, 149, 152, 165, 238, 18, 31},
+         {234, 176, 2, 31, 129, 156, 244, 36},
+         {222, 198, 25, 79, 142, 157, 249, 22},
+         {239, 148, 127, 146, 127, 157, 4, 7},
+         {35, 1, 210, 194, 196, 234, 11, 31}}}
     );
 
     npy_intp ptr = (npy_intp) data;
@@ -239,28 +240,46 @@ static PyObject* cpp2np_c_arr_pixel(PyObject* self, PyObject* args){
 };
 
 /// Prints an 8x8 matrix of int16 to standard output. \returns True if successful
-static PyObject* cpp2np_print_arr(PyObject* self, PyObject* args, PyObject* kwargs){
+static PyObject* cpp2np_print_testarr(PyObject* self, PyObject* args, PyObject* kwargs){
     npy_intp ptr;
     std::string keys[] = {"pointer"};
     static char* kwlist[] = {keys[0].data(), NULL};
     if(!PyArg_ParseTupleAndKeywords(args, kwargs, "l", kwlist, &ptr)){
         PyErr_BadArgument();
-        return Py_False;
+        Py_RETURN_NONE;  // return Py_newRef(Py_None)
     }
 
     constexpr int size = 8;
-    typedef std::array<std::array<int16_t, size>, size> array_int16t_8x8;
-    array_int16t_8x8 *matrix = (array_int16t_8x8 *) ptr;
+    typedef std::array<std::array<uint8_t, size>, size> array_uint8t_8x8;
+    array_uint8t_8x8 *matrix = (array_uint8t_8x8 *) ptr;
 
     std::cout << "pointer address: " << ptr << std::endl;
     for (int i = 0; i < 8; ++i) {
         printf("[%4d %4d %4d %4d %4d %4d %4d %4d]\n", (*matrix)[i][0], (*matrix)[i][1], (*matrix)[i][2], (*matrix)[i][3], (*matrix)[i][4], (*matrix)[i][5], (*matrix)[i][6], (*matrix)[i][7]);
     }
 
-    (*matrix)[0][0] = 255;  // to verify that memory is writable
-
-    return Py_True;
+    Py_RETURN_NONE;  // return Py_newRef(Py_None)
 };
+
+static PyObject* cpp2np_owndata(PyObject* self, PyObject* args, PyObject* kwargs){
+    npy_int owndata;
+    PyObject *arr;
+
+    std::string keys[] = {"array", "value"};
+    static char* kwlist[] = {keys[0].data(), keys[1].data(), NULL};
+    if(!PyArg_ParseTupleAndKeywords(args, kwargs, "Oi", kwlist, &arr, &owndata)){
+        PyErr_BadArgument();
+        Py_RETURN_NONE;  // return Py_newRef(Py_None)
+    }
+    
+    if(owndata) {
+        PyArray_ENABLEFLAGS((PyArrayObject*)arr, NPY_ARRAY_OWNDATA);
+    } else {
+        PyArray_CLEARFLAGS((PyArrayObject*)arr, NPY_ARRAY_OWNDATA);
+    }
+
+    Py_RETURN_NONE;  // return Py_newRef(Py_None)
+}
 
 /// stores docstring information of the module
 static char cpp2np_docs[] = {
@@ -271,13 +290,13 @@ static char cpp2np_docs[] = {
 static PyMethodDef cpp2np_funcs[] = {
     {"hello", (PyCFunction)hello, METH_VARARGS, "Hello World"},
     {"c_arr_i4", (PyCFunction)cpp2np_c_arr_i4, METH_VARARGS | METH_KEYWORDS, "Creates test array of int32 in C++"},
-    {"c_arr_i8", (PyCFunction)cpp2np_c_arr_i8, METH_VARARGS | METH_KEYWORDS, "Creates test array of int64 in C++"},
-    {"c_arr_f8", (PyCFunction)cpp2np_c_arr_f8, METH_VARARGS | METH_KEYWORDS, "Creates test array of doubles in C++"},
     {"c_arr_pixel", (PyCFunction)cpp2np_c_arr_pixel, METH_VARARGS | METH_KEYWORDS, "Creates array of pixels for demo script"},
-    {"print_arr", (PyCFunction)cpp2np_print_arr, METH_VARARGS | METH_KEYWORDS, "Prints an 8x8 matrix of int16 to standard output"},
+    {"print_testarr", (PyCFunction)cpp2np_print_testarr, METH_VARARGS | METH_KEYWORDS, "Prints an 8x8 matrix of uint8 to standard output"},
     {"wrap", (PyCFunction)cpp2np_wrap, METH_VARARGS | METH_KEYWORDS, "Creates numpy array from pointer"},
     {"descr", (PyCFunction)cpp2np_descr, METH_VARARGS | METH_KEYWORDS, "Returns a dict describing the data the numpy array"},
     {"free", (PyCFunction)cpp2np_free, METH_VARARGS | METH_KEYWORDS, "Frees the memory the pointer is referencing"},
+    {"py_free", (PyCFunction)cpp2np_py_free, METH_VARARGS | METH_KEYWORDS, "Frees the memory the pointer is referencing"},
+    {"owndata", (PyCFunction)cpp2np_owndata, METH_VARARGS | METH_KEYWORDS, "sets or unset the owndata flag on a numpy array"},
     {nullptr, nullptr, 0, nullptr}
 };
 

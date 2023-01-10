@@ -166,21 +166,33 @@ Demo 2</h1>
 <p>Apart from the source module in <code>demo2.py</code> there's a html file and jupyter notebook in the docs directory containing sample outputs of the script: <em>docs/demo2.html</em>.</p>
 <h1><a class="anchor" id="autotoc_md15"></a>
 Demo 3: C++(Python)</h1>
-<p>Demonstrates the usage of cpp2np in the other direction. Allocating memory in numpy and using it in C++.</p>
+<p>Demonstrates the usage of cpp2np in the other direction. Allocating memory in numpy, then access and use it in C++.</p>
 <h2><a class="anchor" id="autotoc_md16"></a>
-Create new numpy:</h2>
-<div class="fragment"><div class="line">&gt;&gt;&gt; new_arr = np.ones((8,8), dtype=&quot;int16&quot;)</div>
+Create regular numpy array:</h2>
+<div class="fragment"><div class="line">&gt;&gt;&gt; new_arr = np.ones((8,8), dtype=&quot;uint8&quot;)</div>
 </div><!-- fragment --><h2><a class="anchor" id="autotoc_md17"></a>
 Retrieve pointer</h2>
-<div class="fragment"><div class="line">&gt;&gt;&gt; new_arr_ptr = c2n.descr(new_arr)[&#39;data&#39;]</div>
+<div class="fragment"><div class="line">&gt;&gt;&gt; ptr = c2n.descr(new_arr)[&#39;data&#39;]</div>
 <div class="line">&gt;&gt;&gt; print(&quot;pointer in python: &quot; + str(new_arr_ptr))</div>
 <div class="line"> </div>
-<div class="line">pointer in python: 37148928</div>
+<div class="line">pointer in python: 35841504</div>
 </div><!-- fragment --><h2><a class="anchor" id="autotoc_md18"></a>
-Print Numpy array in C++:</h2>
-<div class="fragment"><div class="line">&gt;&gt;&gt; print(&quot;\nprint in c++:&quot;)</div>
-<div class="line">&gt;&gt;&gt; c2n.print_arr(new_arr_ptr)</div>
+Disable OWNDATA flag</h2>
+<p>By disabling this flag we prevent the numpy array from the deleting the memory while we are still using it in C++.</p>
+<div class="fragment"><div class="line">&gt;&gt;&gt; c2n.owndata(new_arr, False)</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md19"></a>
+Test if disabling the flag worked</h2>
+<p>Now we delete the numpy array and check if the memory area is still there. Before we print, we do some allocations of new memory blocks which would likely cause the original data area to get overriden if it had been freed.</p>
+<div class="fragment"><div class="line">&gt;&gt;&gt; del new_arr</div>
+<div class="line"># do some stuff in memory </div>
+<div class="line">&gt;&gt;&gt; a = np.zeros((10,10), dtype=&quot;double&quot;)</div>
+<div class="line">&gt;&gt;&gt; b = np.zeros((5,5))</div>
+<div class="line"># now print memory the pointer is referencing</div>
+<div class="line">&gt;&gt;&gt; print(&quot;\nprint numpy data from c++:&quot;)</div>
+<div class="line">&gt;&gt;&gt; c2n.print_testarr(ptr)</div>
 <div class="line"> </div>
+<div class="line">print numpy data from c++:</div>
+<div class="line">pointer address: 35841504</div>
 <div class="line">[   1    1    1    1    1    1    1    1]</div>
 <div class="line">[   1    1    1    1    1    1    1    1]</div>
 <div class="line">[   1    1    1    1    1    1    1    1]</div>
@@ -189,20 +201,28 @@ Print Numpy array in C++:</h2>
 <div class="line">[   1    1    1    1    1    1    1    1]</div>
 <div class="line">[   1    1    1    1    1    1    1    1]</div>
 <div class="line">[   1    1    1    1    1    1    1    1]</div>
-</div><!-- fragment --><p>The <em>print_arr</em> method also leaves its mark by changing the first value to <code>255</code>.</p>
-<h2><a class="anchor" id="autotoc_md19"></a>
-Verify change of value in Python</h2>
-<div class="fragment"><div class="line">&gt;&gt;&gt; print(new_arr)</div>
+</div><!-- fragment --><p>Thankfully we can see that the memory still exists, even after deletion of the numpy array.</p>
+<h2><a class="anchor" id="autotoc_md20"></a>
+Free numpy allocated data from C++:</h2>
+<p>When the c++ object is done using the memory, it can use <code>cpp2np_py_free</code> to free the data. Note that this is a different method than <code>cpp2np_free</code>, as Python has its own memory management.</p>
+<div class="fragment"><div class="line">&gt;&gt;&gt; c2n.py_free(ptr)</div>
+</div><!-- fragment --><p>Now we can check again to see if we can still access the memory from c++:</p>
+<div class="fragment"><div class="line"># some memory stuff happening again</div>
+<div class="line">&gt;&gt;&gt; a = np.zeros((10,10), dtype=&quot;double&quot;)</div>
+<div class="line">&gt;&gt;&gt; b = np.zeros((5,5))</div>
+<div class="line"># try to print data</div>
+<div class="line">&gt;&gt;&gt; c2n.print_testarr(ptr)</div>
 <div class="line"> </div>
-<div class="line">[[255   1   1   1   1   1   1   1]</div>
-<div class="line"> [  1   1   1   1   1   1   1   1]</div>
-<div class="line"> [  1   1   1   1   1   1   1   1]</div>
-<div class="line"> [  1   1   1   1   1   1   1   1]</div>
-<div class="line"> [  1   1   1   1   1   1   1   1]</div>
-<div class="line"> [  1   1   1   1   1   1   1   1]</div>
-<div class="line"> [  1   1   1   1   1   1   1   1]</div>
-<div class="line"> [  1   1   1   1   1   1   1   1]]</div>
-</div><!-- fragment --><p>As we see, the memory of the numpy area can be used in C++ and is writable, too. </p>
+<div class="line">pointer address: 35841504</div>
+<div class="line">[   0    0    0    0    0    0    0    0]</div>
+<div class="line">[  16   96  226    1    0    0    0    0]</div>
+<div class="line">[   1    1    1    1    1    1    1    1]</div>
+<div class="line">[   1    1    1    1    1    1    1    1]</div>
+<div class="line">[   1    1    1    1    1    1    1    1]</div>
+<div class="line">[   1    1    1    1    1    1    1    1]</div>
+<div class="line">[   1    1    1    1    1    1    1    1]</div>
+<div class="line">[   1    1    1    1    1    1    1    1]</div>
+</div><!-- fragment --><p>We see the data area was overwritten by other objects in memory, which means it got freed by our method. </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 <!-- start footer part -->

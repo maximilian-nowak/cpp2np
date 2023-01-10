@@ -149,29 +149,47 @@ Apart from the source module in `demo2.py` there's a html file and jupyter noteb
 
 ## Demo 3: C++(Python)
 
-Demonstrates the usage of cpp2np in the other direction. Allocating memory in numpy and using it in C++.
+Demonstrates the usage of cpp2np in the other direction. Allocating memory in numpy, then access and use it in C++.
 
-### Create new numpy:
+### Create regular numpy array:
 
 ```python
->>> new_arr = np.ones((8,8), dtype="int16")
+>>> new_arr = np.ones((8,8), dtype="uint8")
 ```
 
 ### Retrieve pointer
 
 ```python
->>> new_arr_ptr = c2n.descr(new_arr)['data']
+>>> ptr = c2n.descr(new_arr)['data']
 >>> print("pointer in python: " + str(new_arr_ptr))
 
-pointer in python: 37148928
+pointer in python: 35841504
 ```
 
-### Print Numpy array in C++:
+
+### Disable OWNDATA flag
+
+By disabling this flag we prevent the numpy array from the deleting the memory while we are still using it in C++.
 
 ```python
->>> c2n.print_arr(new_arr_ptr)
+>>> c2n.owndata(new_arr, False)
+```
 
-pointer address: 37148928
+### Test if disabling the flag worked
+
+Now we delete the numpy array and check if the memory area is still there. Before we print, we do some allocations of new memory blocks which would likely cause the original data area to get overriden if it had been freed.
+
+```python
+>>> del new_arr
+# do some stuff in memory 
+>>> a = np.zeros((10,10), dtype="double")
+>>> b = np.zeros((5,5))
+# now print memory the pointer is referencing
+>>> print("\nprint numpy data from c++:")
+>>> c2n.print_testarr(ptr)
+
+print numpy data from c++:
+pointer address: 35841504
 [   1    1    1    1    1    1    1    1]
 [   1    1    1    1    1    1    1    1]
 [   1    1    1    1    1    1    1    1]
@@ -182,21 +200,35 @@ pointer address: 37148928
 [   1    1    1    1    1    1    1    1]
 ```
 
-The *print_arr* method also leaves its mark by changing the first value to `255`.
+Thankfully we can see that the memory still exists, even after deletion of the numpy array.
 
-### Verify change of value in Python
+
+### Free numpy allocated data from C++:
+
+When the c++ object is done using the memory, it can use `cpp2np_py_free` to free the data. Note that this is a different method than `cpp2np_free`, as Python has its own memory management.
 
 ```python
->>> print(new_arr)
+>>> c2n.py_free(ptr)
+```
 
-[[255   1   1   1   1   1   1   1]
- [  1   1   1   1   1   1   1   1]
- [  1   1   1   1   1   1   1   1]
- [  1   1   1   1   1   1   1   1]
- [  1   1   1   1   1   1   1   1]
- [  1   1   1   1   1   1   1   1]
- [  1   1   1   1   1   1   1   1]
- [  1   1   1   1   1   1   1   1]]
- ```
+Now we can check again to see if we can still access the memory from c++:
 
- As we see, the memory of the numpy area can be used in C++ and is writable, too.
+```python
+# some memory stuff happening again
+>>> a = np.zeros((10,10), dtype="double")
+>>> b = np.zeros((5,5))
+# try to print data
+>>> c2n.print_testarr(ptr)
+
+pointer address: 35841504
+[   0    0    0    0    0    0    0    0]
+[  16   96  226    1    0    0    0    0]
+[   1    1    1    1    1    1    1    1]
+[   1    1    1    1    1    1    1    1]
+[   1    1    1    1    1    1    1    1]
+[   1    1    1    1    1    1    1    1]
+[   1    1    1    1    1    1    1    1]
+[   1    1    1    1    1    1    1    1]
+```
+
+We see the data area was overwritten by other objects in memory, which means it got freed by our method.
