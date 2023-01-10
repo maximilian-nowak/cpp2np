@@ -1,7 +1,6 @@
 import numpy as np
 import cpp2np as c2n
 
-# test print method with a different numpy array
 print("\nTest numpy memory can be accessed and used from C++:\n")
 new_arr = np.ones((8,8), dtype="uint8")
 
@@ -9,7 +8,7 @@ new_arr = np.ones((8,8), dtype="uint8")
 ptr = c2n.descr(new_arr)['data']
 print("pointer in python: " + str(ptr))
 
-# set flag in numpy array to not delete memory
+# disable OWNDATA flag in numpy array to prevent it from deleting the memory
 c2n.owndata(new_arr, False)
 
 # now delete numpy array
@@ -32,7 +31,3 @@ a = np.zeros((10,10), dtype="double")
 b = np.zeros((5,5))
 
 c2n.print_testarr(ptr)
-
-
-# print("\n print in python:")
-# print(new_arr)
