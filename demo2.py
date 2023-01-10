@@ -55,7 +55,7 @@ plt.show()
 print("\n\n4) Transform result back to uint8 and assign changes to original memory area:\n")
 
 np.place(pixel, np.ones(shape), A.astype('uint8').tolist())
-print('pixel matrix (int8):')
+print('pixel matrix (uint8):')
 c2n.print_testarr(ptr)
 
 # free memory
