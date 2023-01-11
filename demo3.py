@@ -7,9 +7,12 @@ new_arr = np.ones((8,8), dtype="uint8")
 # retrieve pointer 
 ptr = c2n.descr(new_arr)['data']
 print("pointer in python: " + str(ptr))
+print("owndata: " + str(new_arr.flags['OWNDATA']))
 
 # disable OWNDATA flag in numpy array to prevent it from deleting the memory
+print("-> disable flag")
 c2n.owndata(new_arr, False)
+print("owndata: " + str(new_arr.flags['OWNDATA']))
 
 # now delete numpy array
 del new_arr

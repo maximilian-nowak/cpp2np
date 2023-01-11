@@ -161,7 +161,7 @@ Demonstrates the usage of cpp2np in the other direction. Allocating memory in nu
 
 ```python
 >>> ptr = c2n.descr(new_arr)['data']
->>> print("pointer in python: " + str(new_arr_ptr))
+>>> print("pointer in python: " + str(ptr))
 
 pointer in python: 35841504
 ```

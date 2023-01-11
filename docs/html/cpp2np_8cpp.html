@@ -78,24 +78,25 @@ $(function() {
 <code>#include &lt;string&gt;</code><br />
 <code>#include &lt;array&gt;</code><br />
 <code>#include &lt;iostream&gt;</code><br />
-<code>#include &lt;memory&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for cpp2np.cpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="cpp2np_8cpp__incl.png" border="0" usemap="#src_2cpp2np_8cpp" alt=""/></div>
 <map name="src_2cpp2np_8cpp" id="src_2cpp2np_8cpp">
-<area shape="rect" title=" " alt="" coords="300,5,419,32"/>
+<area shape="rect" title=" " alt="" coords="260,5,379,32"/>
 <area shape="rect" title=" " alt="" coords="5,80,84,107"/>
 <area shape="rect" title=" " alt="" coords="109,80,266,107"/>
 <area shape="rect" title=" " alt="" coords="290,80,349,107"/>
 <area shape="rect" title=" " alt="" coords="373,80,429,107"/>
 <area shape="rect" title=" " alt="" coords="453,80,533,107"/>
-<area shape="rect" title=" " alt="" coords="557,80,634,107"/>
 </map>
 </div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
+<tr class="memitem:ac9efdaac9411d0868b715edccca3269d"><td class="memItemLeft" align="right" valign="top"><a id="ac9efdaac9411d0868b715edccca3269d"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PY_SSIZE_T_CLEAN</b></td></tr>
+<tr class="separator:ac9efdaac9411d0868b715edccca3269d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab6e6ee86736f9ebb56e74ae21bf3ff8a"><td class="memItemLeft" align="right" valign="top"><a id="ab6e6ee86736f9ebb56e74ae21bf3ff8a"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>NPY_NO_DEPRECATED_API</b>&#160;&#160;&#160;NPY_API_VERSION</td></tr>
 <tr class="separator:ab6e6ee86736f9ebb56e74ae21bf3ff8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -563,15 +564,15 @@ Variables</h2></td></tr>
 </div>
 </div>
 </div><!-- contents -->
-<div class="ttc" id="acpp2np_8cpp_html_a9eb9de49fffad1ff7da918399220dafb"><div class="ttname"><a href="cpp2np_8cpp.html#a9eb9de49fffad1ff7da918399220dafb">cpp2np_free</a></div><div class="ttdeci">static PyObject * cpp2np_free(PyObject *self, PyObject *args, PyObject *kwargs)</div><div class="ttdef"><b>Definition:</b> cpp2np.cpp:172</div></div>
-<div class="ttc" id="acpp2np_8cpp_html_ad516189b4963ba92b3b33f3f6eb0248b"><div class="ttname"><a href="cpp2np_8cpp.html#ad516189b4963ba92b3b33f3f6eb0248b">cpp2np_wrap</a></div><div class="ttdeci">static PyObject * cpp2np_wrap(PyObject *self, PyObject *args, PyObject *kwargs)</div><div class="ttdef"><b>Definition:</b> cpp2np.cpp:41</div></div>
-<div class="ttc" id="acpp2np_8cpp_html_a7d3e5c23d89290c09a8e5bdf680b3033"><div class="ttname"><a href="cpp2np_8cpp.html#a7d3e5c23d89290c09a8e5bdf680b3033">cpp2np_c_arr_i4</a></div><div class="ttdeci">static PyObject * cpp2np_c_arr_i4(PyObject *self, PyObject *args)</div><div class="ttdoc">allocates a c++ array of 32 bit integer.</div><div class="ttdef"><b>Definition:</b> cpp2np.cpp:209</div></div>
-<div class="ttc" id="acpp2np_8cpp_html_a29bc172d9661a22bd8a78b4e3fa082af"><div class="ttname"><a href="cpp2np_8cpp.html#a29bc172d9661a22bd8a78b4e3fa082af">cpp2np_docs</a></div><div class="ttdeci">static char cpp2np_docs[]</div><div class="ttdoc">stores docstring information of the module</div><div class="ttdef"><b>Definition:</b> cpp2np.cpp:285</div></div>
-<div class="ttc" id="acpp2np_8cpp_html_a116ef0d3a964068a358e63860c0a4380"><div class="ttname"><a href="cpp2np_8cpp.html#a116ef0d3a964068a358e63860c0a4380">cpp2np_py_free</a></div><div class="ttdeci">static PyObject * cpp2np_py_free(PyObject *self, PyObject *args, PyObject *kwargs)</div><div class="ttdef"><b>Definition:</b> cpp2np.cpp:193</div></div>
-<div class="ttc" id="acpp2np_8cpp_html_af43f42e6db326f822b4be73ff0061ba9"><div class="ttname"><a href="cpp2np_8cpp.html#af43f42e6db326f822b4be73ff0061ba9">cpp2np_funcs</a></div><div class="ttdeci">static PyMethodDef cpp2np_funcs[]</div><div class="ttdoc">mapping of module functions and docstrings</div><div class="ttdef"><b>Definition:</b> cpp2np.cpp:290</div></div>
-<div class="ttc" id="acpp2np_8cpp_html_a8b1ee65b6b9f8a5e3cf2a49bffe80310"><div class="ttname"><a href="cpp2np_8cpp.html#a8b1ee65b6b9f8a5e3cf2a49bffe80310">cpp2np_descr</a></div><div class="ttdeci">static PyObject * cpp2np_descr(PyObject *self, PyObject *args, PyObject *kwargs)</div><div class="ttdef"><b>Definition:</b> cpp2np.cpp:93</div></div>
-<div class="ttc" id="acpp2np_8cpp_html_a9a339ae37b25d9fafa2cc01fa3253d9a"><div class="ttname"><a href="cpp2np_8cpp.html#a9a339ae37b25d9fafa2cc01fa3253d9a">cpp2np_c_arr_pixel</a></div><div class="ttdeci">static PyObject * cpp2np_c_arr_pixel(PyObject *self, PyObject *args)</div><div class="ttdoc">Returns a 8x8 pixel matrix used in the demo script.</div><div class="ttdef"><b>Definition:</b> cpp2np.cpp:219</div></div>
-<div class="ttc" id="acpp2np_8cpp_html_ac9b906d1ee3085d634b4b8009169ef1d"><div class="ttname"><a href="cpp2np_8cpp.html#ac9b906d1ee3085d634b4b8009169ef1d">cpp2np_print_testarr</a></div><div class="ttdeci">static PyObject * cpp2np_print_testarr(PyObject *self, PyObject *args, PyObject *kwargs)</div><div class="ttdoc">Prints an 8x8 matrix of int16 to standard output.</div><div class="ttdef"><b>Definition:</b> cpp2np.cpp:243</div></div>
+<div class="ttc" id="acpp2np_8cpp_html_a9eb9de49fffad1ff7da918399220dafb"><div class="ttname"><a href="cpp2np_8cpp.html#a9eb9de49fffad1ff7da918399220dafb">cpp2np_free</a></div><div class="ttdeci">static PyObject * cpp2np_free(PyObject *self, PyObject *args, PyObject *kwargs)</div><div class="ttdef"><b>Definition:</b> cpp2np.cpp:171</div></div>
+<div class="ttc" id="acpp2np_8cpp_html_ad516189b4963ba92b3b33f3f6eb0248b"><div class="ttname"><a href="cpp2np_8cpp.html#ad516189b4963ba92b3b33f3f6eb0248b">cpp2np_wrap</a></div><div class="ttdeci">static PyObject * cpp2np_wrap(PyObject *self, PyObject *args, PyObject *kwargs)</div><div class="ttdef"><b>Definition:</b> cpp2np.cpp:40</div></div>
+<div class="ttc" id="acpp2np_8cpp_html_a7d3e5c23d89290c09a8e5bdf680b3033"><div class="ttname"><a href="cpp2np_8cpp.html#a7d3e5c23d89290c09a8e5bdf680b3033">cpp2np_c_arr_i4</a></div><div class="ttdeci">static PyObject * cpp2np_c_arr_i4(PyObject *self, PyObject *args)</div><div class="ttdoc">allocates a c++ array of 32 bit integer.</div><div class="ttdef"><b>Definition:</b> cpp2np.cpp:208</div></div>
+<div class="ttc" id="acpp2np_8cpp_html_a29bc172d9661a22bd8a78b4e3fa082af"><div class="ttname"><a href="cpp2np_8cpp.html#a29bc172d9661a22bd8a78b4e3fa082af">cpp2np_docs</a></div><div class="ttdeci">static char cpp2np_docs[]</div><div class="ttdoc">stores docstring information of the module</div><div class="ttdef"><b>Definition:</b> cpp2np.cpp:284</div></div>
+<div class="ttc" id="acpp2np_8cpp_html_a116ef0d3a964068a358e63860c0a4380"><div class="ttname"><a href="cpp2np_8cpp.html#a116ef0d3a964068a358e63860c0a4380">cpp2np_py_free</a></div><div class="ttdeci">static PyObject * cpp2np_py_free(PyObject *self, PyObject *args, PyObject *kwargs)</div><div class="ttdef"><b>Definition:</b> cpp2np.cpp:192</div></div>
+<div class="ttc" id="acpp2np_8cpp_html_af43f42e6db326f822b4be73ff0061ba9"><div class="ttname"><a href="cpp2np_8cpp.html#af43f42e6db326f822b4be73ff0061ba9">cpp2np_funcs</a></div><div class="ttdeci">static PyMethodDef cpp2np_funcs[]</div><div class="ttdoc">mapping of module functions and docstrings</div><div class="ttdef"><b>Definition:</b> cpp2np.cpp:289</div></div>
+<div class="ttc" id="acpp2np_8cpp_html_a8b1ee65b6b9f8a5e3cf2a49bffe80310"><div class="ttname"><a href="cpp2np_8cpp.html#a8b1ee65b6b9f8a5e3cf2a49bffe80310">cpp2np_descr</a></div><div class="ttdeci">static PyObject * cpp2np_descr(PyObject *self, PyObject *args, PyObject *kwargs)</div><div class="ttdef"><b>Definition:</b> cpp2np.cpp:92</div></div>
+<div class="ttc" id="acpp2np_8cpp_html_a9a339ae37b25d9fafa2cc01fa3253d9a"><div class="ttname"><a href="cpp2np_8cpp.html#a9a339ae37b25d9fafa2cc01fa3253d9a">cpp2np_c_arr_pixel</a></div><div class="ttdeci">static PyObject * cpp2np_c_arr_pixel(PyObject *self, PyObject *args)</div><div class="ttdoc">Returns a 8x8 pixel matrix used in the demo script.</div><div class="ttdef"><b>Definition:</b> cpp2np.cpp:218</div></div>
+<div class="ttc" id="acpp2np_8cpp_html_ac9b906d1ee3085d634b4b8009169ef1d"><div class="ttname"><a href="cpp2np_8cpp.html#ac9b906d1ee3085d634b4b8009169ef1d">cpp2np_print_testarr</a></div><div class="ttdeci">static PyObject * cpp2np_print_testarr(PyObject *self, PyObject *args, PyObject *kwargs)</div><div class="ttdoc">Prints an 8x8 matrix of int16 to standard output.</div><div class="ttdef"><b>Definition:</b> cpp2np.cpp:242</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

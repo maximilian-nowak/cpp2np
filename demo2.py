@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 import scipy.fftpack as sfft
 import cpp2np as c2n
 
-                
 def quant1(V8,p):
     V8 = V8.astype('int16') - 128
     A = sfft.dctn(V8, norm='ortho')
@@ -37,7 +36,6 @@ img = Image.fromarray(pixel).convert('LA')
 plt.figure(1)
 plt.imshow(img)
 plt.show()
-
 
 # apply cosine transformation for compression
 print("\n\n3) Compress image with 2D cosine transformation:\n")

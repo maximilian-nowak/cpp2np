@@ -1,5 +1,5 @@
 /// \file cpp2np.cpp
-
+#define PY_SSIZE_T_CLEAN
 #include <Python.h>
 
 #define NPY_NO_DEPRECATED_API NPY_API_VERSION
@@ -7,7 +7,6 @@
 #include <string>
 #include <array>
 #include <iostream>
-#include <memory>
  
 static PyObject* hello(PyObject* self, PyObject* args){
     std::string s = "Hello Python, this is C++!";
@@ -281,10 +280,7 @@ static PyObject* cpp2np_owndata(PyObject* self, PyObject* args, PyObject* kwargs
     Py_RETURN_NONE;  // return Py_newRef(Py_None)
 }
 
-/// stores docstring information of the module
-static char cpp2np_docs[] = {
-    "C Numpy extension for wrapping continuous C/C++ style arrays inside a numpy array using the same memory buffer.\n"
-};
+
 
 /// mapping of module functions and docstrings
 static PyMethodDef cpp2np_funcs[] = {
@@ -298,6 +294,11 @@ static PyMethodDef cpp2np_funcs[] = {
     {"py_free", (PyCFunction)cpp2np_py_free, METH_VARARGS | METH_KEYWORDS, "Frees the memory the pointer is referencing"},
     {"owndata", (PyCFunction)cpp2np_owndata, METH_VARARGS | METH_KEYWORDS, "sets or unset the owndata flag on a numpy array"},
     {nullptr, nullptr, 0, nullptr}
+};
+
+/// stores docstring information of the module
+static char cpp2np_docs[] = {
+    "C Numpy extension for wrapping continuous C/C++ style arrays inside a numpy array using the same memory buffer.\n"
 };
 
 static struct PyModuleDef cpp2npmodule = {
